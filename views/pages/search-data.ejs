@@ -1,0 +1,62 @@
+<%- include('../partials/header'); %>
+<main style="margin-top: 58px">
+<div class="container pt-4">
+<section class="mb-4">
+    <div class="card">
+      <div class="card-header text-center py-3">
+        <h5 class="mb-0 text-center">
+          <strong>Search Term History</strong>
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover text-nowrap" id="example">
+            <thead>
+              <tr>
+                <th scope="col">Sr.No</th>
+                <th scope="col">Search Term</th>
+                <th scope="col">Sesion Details</th>
+                <th scope="col">Link</th>
+                <th scope="col">Share Flag</th>
+                <th scope="col">Search Date</th>
+                <th scope="col">Action</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+                <% if(data.length){ %>
+ 
+                    <% sum = 0; 
+                    data.forEach((item)=>{
+                        %>
+                        <tr>
+                            <td><%=item.srNo%></td>
+                        <td><%=item.search_term%></td>
+                      <td><%=item.session_start%></td>
+                      <td><%=item.link%></td>
+                      <td><%=item.share_flag%></td>
+                      <td><%=item.searchDate%></td>
+                      <td><button type="submit" class="btn btn-primary center" type="submit">Share</button></td>
+                    
+                       </tr>
+                        <%});%>
+                             
+                    <% }else{ %>
+                         <tr>
+                            <td colspan="3">No user</td>
+                         </tr>
+                      <% } %>  
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+  </main>
+
+
+
+</div>
+  <%- include('../partials/footer'); %>
