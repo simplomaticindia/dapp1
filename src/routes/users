@@ -1,15 +1,16 @@
 const express = require('express');
 const UserController = require('../controllers/userController')
+
 const app = express();
 const router = express.Router();
 app.set('view engine', 'ejs');
-router.get('/', (req,res) => {
-  res.render('../views/pages/search');
-});
+router.get('/', UserController.searchIndex);
 router.post('/searchTerm', UserController.getSearchData);
 router.get('/searchHistory', UserController.getSearchHistory);
 router.get('/dashboard', UserController.dashboard);
-router.get('/profile', UserController.profile);
+router.get('/countryStateCity', UserController.countryStateCity);
+router.post('/login', UserController.login);
+router.get('/logout', UserController.logout);
 
 
 module.exports=router;

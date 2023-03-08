@@ -1,40 +1,55 @@
-const express = require('express');
-const path = require('path');
-const flash = require('express-flash');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const createError = require('http-errors');
-const connection = require('./config/connection');
+const express = require("express");
+const path = require("path");
+const web3 = require("web3");
+const flash = require("express-flash");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const createError = require("http-errors");
+const connection = require("./config/connection");
 
 //console.log(Country.getAllCountries());
 //console.log(State.getAllStates())
 //console.log(City.getAllCities())
 const app = express();
-//connection.connect(); 
+//connection.connect();
 global.db = connection;
-const PORT = process.env.PORT || 3000; 
-const router=require("./routes/users");
-//console.log(router);
+const PORT = process.env.PORT || 3000;
+const router = require("./routes/users");
+//console.log(web3);
 //console.log("mukesh");
-//let vpath=app.set('views', path.join(__dirname, 'views'));
-//console.log(vpath);
-//app.use('/public',express.static(__dirname + '/public'));
-//app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use(
+  session({
+    secret: "dapp",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+app.use(function (req, res, next) {
+  res.locals.metaUser = req.session.metaUser;
+  next();
+});
+const middlewareFunction = function (req, res, next) {
+  if (res.locals.metaUser) next();
+  else res.redirect("/");
+};
 app.use("/public", express.static(__dirname + "/../public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.set('view engine', 'ejs');
-app.use('/', router);
-app.post('/searchTerm',router);
-app.get('/searchHistory',router);
-app.get('/dashboard',router);
-app.get('/profile',router);
-
+app.set("view engine", "ejs");
+app.get("/", router);
+app.post("/searchTerm", middlewareFunction, router);
+app.get("/searchHistory", middlewareFunction, router);
+app.get("/dashboard", middlewareFunction, router);
+app.get("/countryStateCity", router);
+app.post("/login", router);
+app.get("/logout", router);
 
 //console.log(hours+':'+minutes+':'+seconds);
 // Start the server
+//metamask code
 
+//end metamask code
 app.listen(PORT, () => {
   console.log(`App running on port: ${PORT}`);
-  console.log('Press Ctrl+C to quit.');
+  console.log("Press Ctrl+C to quit.");
 });

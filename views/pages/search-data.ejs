@@ -15,8 +15,8 @@
               <tr>
                 <th scope="col">Sr.No</th>
                 <th scope="col">Search Term</th>
-                <th scope="col">Sesion Details</th>
-                <th scope="col">Link</th>
+                <th scope="col">Session Details</th>
+          
                 <th scope="col">Share Flag</th>
                 <th scope="col">Search Date</th>
                 <th scope="col">Action</th>
@@ -31,9 +31,9 @@
                         %>
                         <tr>
                             <td><%=item.srNo%></td>
-                        <td><%=item.search_term%></td>
+                        <td><a class="navbar-brand mt-2 mt-lg-0" href="/searchHistory"><%=item.search_term%></a></td>
                       <td><%=item.session_start%></td>
-                      <td><%=item.link%></td>
+  
                       <td><%=item.share_flag%></td>
                       <td><%=item.searchDate%></td>
                       <td><button type="submit" class="btn btn-primary center" type="submit">Share</button></td>

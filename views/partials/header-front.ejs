@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Web Through</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+  <!-- MDB -->
+  <link rel="stylesheet" href="/../public/css/mdb.min.css" />
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="/../public/css/admin.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!--Main Navigation-->
+  <header>
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white bg-primary fixed-top">
+		<!-- Container wrapper -->
+		<div class="container-fluid">
+		  <!-- Toggle button -->
+		   <!-- <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#sidebarMenu"
+			aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+			<i class="fas fa-bars"></i>
+		  </button>-->
+  
+		  <!-- Brand -->
+		  <a class="navbar-brand mt-2 mt-lg-0" href="/">
+          <img src="/../public/img/Web3Search.png" height="30" alt="Web Through" loading="lazy"/>
+          </a>
+		  
+		  <!-- Search form -->
+		 
+  
+		  <!-- Right links -->
+		  <ul class="navbar-nav ms-auto d-flex flex-row">
+			<!-- Notification dropdown -->
+			<li class="nav-item dropdown">
+			  <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="/" id="navbarDropdownMenuLink"
+				role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+			   Home
+				
+			</a>
+			</li>
+  <%if (metaUser) { 
+	  
+  }else {%>
+
+
+			<!-- Icon -->
+			<li class="nav-item"> <a class="nav-link me-3 me-lg-0 enableEthereumButton" href="#" >Connect To MetaMask
+			  </a>
+			 
+			  <form action="/login" id="metaMaskform" method="POST" >
+  <input type="hidden" name="metaMaskId" id="showAccount" class="showAccount">
+</form>
+
+			</li>
+		   
+		<% } %>	
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min1.js"></script>
+				<script src="metamask-login.js"></script>
+			 <script>/* To connect using MetaMask */
+			 const ethereumButton = document.querySelector('.enableEthereumButton');
+			const showAccount = document.querySelector('.showAccount');
+
+			ethereumButton.addEventListener('click', () => {
+			getAccount();
+			});
+
+			async function getAccount() {
+		 const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+			 const account = accounts[0];
+			//showAccount.value = account;
+			document.getElementById("showAccount").value=account;
+			document.getElementById("metaMaskform").submit();
+			 }
+			 
+			 </script>
+			<!-- Icon dropdown -->
+			<li class="nav-item   dropdown">
+			  <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown" role="button"
+				data-mdb-toggle="dropdown" aria-expanded="false">
+				<i class="fa fa-ellipsis-v" aria-hidden="true"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+			  </a>
+			  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+				<li>
+				
+					<li><a class="dropdown-item nav-link" href="#"> <i class="fas fa-cog pe-2"></i>Settings</a></li>
+					<li><a class="dropdown-item nav-link" href="/searchHistory"> <i class="fas fa-search pe-2"></i>Search History</a></li>
+					<li><a class="dropdown-item nav-link" href="#"><i class="fas fa-user-secret pe-2"></i>Privacy</a></li>
+					
+					<li><a class="dropdown-item nav-link" href="/profile"> <i class="fas fa-user-alt pe-2"></i>My Profile</a></li>
+					
+					<li><div class="nav-link" style="padding-left:20px;">
+						<div class="form-check form-switch">
+						
+						<label class="form-check-label" for="flexSwitchCheckDefault">Do Not Shared</label>
+						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />	  
+					</div></div>
+					  </li>
+					  <li> 
+					  </li>
+				</li>
+				<li>
+				  <hr class="dropdown-divider" />
+				</li>
+				
+				<li>
+					<div class="nav-link" style="padding-left:20px;"><div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+						<label class="form-check-label" for="flexSwitchCheckDefault">Shared</label>
+					  </div></div>
+				</li>
+				<hr class="dropdown-divider" />
+				<li><a class="dropdown-item nav-link" href="#"> <i class="fas fa-door-open pe-2"></i>Logout</a></li>
+			  </ul>
+			  
+			</li>
+			                <% if (metaUser) { %>;
+               
+               
+			<!-- Avatar -->
+			<li class="nav-item dropdown">
+			  <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
+				id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+				<img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22"
+				  alt="" loading="lazy" />
+			  </a>
+			  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+				<li><a class="dropdown-item" href="/profile">My profile</a></li>
+				<li><a class="dropdown-item" href="/searchHistory">Search History</a></li>
+				<li><a class="dropdown-item" href="#">Settings</a></li>
+				<li><a class="dropdown-item" href="/logout">Logout</a></li>
+			  </ul>
+			</li>
+			 <% } %>
+		  </ul>
+		</div>
+		<!-- Container wrapper -->
+	  </nav>
+    <!-- Navbar -->
+  </header>
+  <!--Main Navigation-->
+
+  
+ 

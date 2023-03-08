@@ -1,22 +1,68 @@
 <%- include('../partials/header'); %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <main style="margin-top: 58px">
 <div class="container pt-4">
 <section class="mb-4">
-  <div class="container mt-5">
 
-    <div class="row justify-content-center">
-
-        <div class="col-md-10">
-
-            <div class="card">
-
-                <div class="card-header">
+ <div class="card">
+      <div class="card-header text-center py-3">
+        <div class="card-header">
 
                     <h2 class="text-info">Profiles</h2>
 
                 </div>
+      </div>
+<!-- Default form register -->
+<form>
+ <div class="row mb-4">
+ <div class="col">
+      <div class="form-outline">
+        <input type="text" id="metamaskid" value="" class="form-control" />
+        <label class="form-label" for="metamaskid">MetaMask Wallet id</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-outline">
+        <input type="text" id="userid" class="form-control" />
+        <label class="form-label" for="userid">User Id</label>
+      </div>
+    </div>
 
-                <div class="card-body">
+    
+  </div>
+  <!-- 2 column grid layout with text inputs for the first and last names -->
+  <div class="row mb-4">
+    <div class="col">
+      <div class="form-outline">
+        <input type="text" id="form3Example1" class="form-control" />
+        <label class="form-label" for="form3Example1">First name</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-outline">
+        <input type="text" id="form3Example2" class="form-control" />
+        <label class="form-label" for="form3Example2">Last name</label>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+  <div class="col">
+  <!-- Email input -->
+  <div class="form-outline">
+    <input type="email" id="form3Example3" class="form-control" />
+    <label class="form-label" for="form3Example3">Email address</label>
+  </div>
+  </div>
+  <div class="col">
+  <div class="form-outline">
+    <input type="password" id="mobileno" class="form-control" />
+    <label class="form-label" for="mobileno">Mobile No</label>
+  </div>
+  </div>
+  </div>
+  <div class="row mb-4">
+  <div class="col">
+   <div class="card-body">
 
                     <div class="form-group">
 
@@ -46,35 +92,61 @@
 
                     <div class="form-group">
 
-                        <label for="state">State</label>
+                        <label for="state">City</label>
 
                         <select class="form-control" id="state-dropdown">
-                          <option value="">Select Country</option>
+                          <option value="">Select City</option>
 
                           
                         </select>
 
                     </div>                        
 
+                   
+
+                </div>
+  </div>
+  <div class="col">
+    <div class="card-body">
+
                     <div class="form-group">
 
-                        <label for="city">City</label>
+                        <label for="country">State</label>
 
-                        <select class="form-control" id="city-dropdown">
+                        <select class="form-control" id="countryData">
 
-                        </select>
+                            <option value="">Select State</option>
+
+                            
+
+                        </select>  
 
                     </div>
 
+                    <div class="col">
+                    <br>
+  <div class="form-outline">
+    <input type="password" id="zipcode" class="form-control" />
+    <label class="form-label" for="zipcode">Zip Code</label>
+  </div>
+
+                    </div>                        
+
+                   
+
                 </div>
+  </div>
+  </div>
 
-            </div>
-
-        </div>
-
-    </div>
-
+ 
+  <!-- Submit button -->
+   <div class="row mb-2">
+  <p align="center"><br> <button type="submit" class="btn btn-primary center" type="submit">Submit</button></p>
 </div>
+ 
+</form>
+<!-- Default profile form -->
+ 
 <script >
 
     $(document).ready(function() {
@@ -83,7 +155,7 @@
 
             var country_id = this.value;
             console.log(country_id);
-            alert("Muksjsdsdf")
+            //alert("Muksjsdsdf")
 
             $("#state-dropdown").html('');
 
