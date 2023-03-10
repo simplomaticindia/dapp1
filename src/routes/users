@@ -1,5 +1,6 @@
 const express = require('express');
 const UserController = require('../controllers/userController')
+const countryStateController = require('../controllers/countryStateController')
 
 const app = express();
 const router = express.Router();
@@ -9,8 +10,14 @@ router.post('/searchTerm', UserController.getSearchData);
 router.get('/searchHistory', UserController.getSearchHistory);
 router.get('/dashboard', UserController.dashboard);
 router.get('/countryStateCity', UserController.countryStateCity);
+router.get('/profile', UserController.profile);
+router.post('/login', UserController.login);
 router.post('/login', UserController.login);
 router.get('/logout', UserController.logout);
+router.post('/getStateByCountry', countryStateController.getStateList);
+router.post('/getCityByCountry', countryStateController.getCityList);
+router.post('/updateProfileData', UserController.updateProfileData);
+router.get('/profileDetails', UserController.getProfileDetails);
 
 
 module.exports=router;
