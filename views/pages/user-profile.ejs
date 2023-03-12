@@ -17,13 +17,13 @@
  <div class="row mb-4 card-body">
  <div class="col">
       <div class="form-outline">
-        <input type="text" id="metamaskid" value="" class="form-control" />
+        <input type="text" id="metamaskid" value="<%= data[0].wallet_id %>" class="form-control" />
         <label class="form-label" for="metamaskid">MetaMask Wallet id</label>
       </div>
     </div>
     <div class="col">
       <div class="form-outline">
-        <input type="text" id="userid" name="userId" class="form-control" />
+        <input type="text" id="userid" name="userId" value="<%= data[0].user_id %>" class="form-control" />
         <label class="form-label" for="userId">User Id</label>
       </div>
     </div>
@@ -34,13 +34,13 @@
   <div class="row mb-4 card-body">
     <div class="col">
       <div class="form-outline">
-        <input type="text" id="form3Example1" name="firstName" class="form-control" />
+        <input type="text" id="form3Example1" name="firstName" value="<%= data[0].first_name %>" class="form-control" />
         <label class="form-label" for="form3Example1">First name</label>
       </div>
     </div>
     <div class="col">
       <div class="form-outline">
-        <input type="text" id="form3Example2" name="lastName" class="form-control" />
+        <input type="text" id="form3Example2" name="lastName" value="<%= data[0].last_name %>" class="form-control" />
         <label class="form-label" for="form3Example2">Last name</label>
       </div>
     </div>
@@ -49,13 +49,13 @@
   <div class="col">
   <!-- Email input -->
   <div class="form-outline">
-    <input type="email" id="form3Example3" name="emailId" class="form-control" />
+    <input type="email" id="form3Example3" name="emailId" value="<%= data[0].email_id %>"class="form-control" />
     <label class="form-label" for="form3Example3">Email address</label>
   </div>
   </div>
   <div class="col">
   <div class="form-outline">
-    <input type="password" id="mobileno" name="mobileNo" class="form-control" />
+    <input type="text" id="mobileno" name="mobileNo" value="<%= data[0].phone_no %>" class="form-control" />
     <label class="form-label" for="mobileno">Mobile No</label>
   </div>
   </div>
@@ -64,13 +64,13 @@
     <div class="col">
     <!-- Email input -->
     <div class="form-outline">
-      <input type="text" id="Address1" name="address1" class="form-control" />
+      <input type="text" id="Address1" name="address1" value="<%= data[0].address_line1 %>"class="form-control" />
       <label class="form-label" for="Address1">Address1 </label>
     </div>
     </div>
     <div class="col">
     <div class="form-outline">
-      <input type="text" id="Address2" name="address2" class="form-control" />
+      <input type="text" id="Address2" name="address2" value="<%= data[0].address_line2 %>" class="form-control" />
       <label class="form-label" for="Address2">Address2</label>
     </div>
     </div>
@@ -141,8 +141,41 @@
                     <div class="col">
                     <br>
   <div class="form-outline">
-    <input type="password" id="zipcode" name="zipCode" class="form-control" />
+    <input type="text" id="zipcode" name="zipCode" class="form-control" />
     <label class="form-label" for="zipcode">Zip Code</label>
+  </div>
+
+                    </div>                        
+
+                   
+
+                </div>
+  </div>
+  <div class="col">
+    <div class="card-body">
+
+                    <div class="form-group">
+
+                        <label for="country">Language</label>
+
+                        <select class="form-control" name="language" id="language">
+
+                            <option value="">Select Language</option>
+                            <option value="hindi">Hindi</option>
+                            <option value="english">English</option>
+
+
+                            
+
+                        </select>  
+
+                    </div>
+
+                    <div class="col">
+                    <br>
+  <div class="form-outline">
+    <input type="text" id="interest" name="interest" class="form-control" />
+    <label class="form-label" for="interest">Interest</label>
   </div>
 
                     </div>                        

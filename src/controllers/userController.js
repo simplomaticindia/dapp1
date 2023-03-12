@@ -12,12 +12,13 @@ const countryModels = require("../models/countryModels");
 const searchIndex = (req, res) => {
   //console.log(req.session.metaUser);
   var metaUser = req.session.metaUser;
-  res.render("../views/pages/search", { metaUser: metaUser });
+  var message = "";
+  res.render("../views/pages/search", { metaUser: metaUser, message: message });
 };
 const login = (req, res) => {
   var post = req.body;
   var metaMaskId = post.metaMaskId;
-
+  console.log(metaMaskId);
   //var sessionId = generateSessionId()
   //let account = "mukesh";
 
@@ -34,6 +35,7 @@ const login = (req, res) => {
         "INSERT INTO `user_profile`(`wallet_id`) VALUES ('" + metaMaskId + "')";
       var query = db.query(sql);
       req.session.metaUser = metaMaskId;
+      req.session.save();
     }
   });
 
@@ -86,7 +88,8 @@ const getSearchData = function (req, res) {
       //res.render('signup.ejs',{message: message});
       //console.log(encryptDecrypt.decrypt(encryptSearchValue));
       //console.log(sql);
-      res.render("../views/pages/search");
+
+      res.render("../views/pages/search", { message: message });
     });
   } else {
     res.render("../views/pages/search");
@@ -101,84 +104,102 @@ const updateProfileData = function (req, res) {
     //console.log(post);
     var wallet_id = req.session.metaUser;
     //console.log(wallet_id);
-    var user_id = encryptDecrypt.encrypt(post.userId);
-    var first_name = encryptDecrypt.encrypt(post.firstName);
-    var last_name = encryptDecrypt.encrypt(post.lastName);
-    var email_id = encryptDecrypt.encrypt(post.emailId);
-    var phone_no = encryptDecrypt.encrypt(post.mobileNo);
-    var address1 = encryptDecrypt.encrypt(post.address1);
-    var address2 = encryptDecrypt.encrypt(post.address2);
+    if (post.userId) {
+      var user_id = encryptDecrypt.encrypt(post.userId);
+    }
+    else {
+      var user_id="";
+    }
+    if (post.firstName) {
+      var first_name = encryptDecrypt.encrypt(post.firstName);
+    }
+    else {
+      var first_name="";
+    }
+    if (post.lastName) {
+      var last_name = encryptDecrypt.encrypt(post.lastName);
+    }
+    else {
+      var last_name="";
+    }
+    if (post.emailId) {
+      var email_id = encryptDecrypt.encrypt(post.emailId);
+    }
+    else {
+      var email_id="";
+    }
+    if (post.mobileNo) {
+      var phone_no = encryptDecrypt.encrypt(post.mobileNo);
+    }
+    else {
+      var phone_no="";
+    }
+    if (post.address1) {
+      var address_line1 = encryptDecrypt.encrypt(post.address1);
+    }
+    else {
+      var address_line1="";
+    }
+    if (post.address2) {
+      var address_line2 = encryptDecrypt.encrypt(post.address2);
+    }
+    else {
+      var address_line2="";
+    }
+   
+    
+    
     var country = post.country;
-    // var arrayDatac = country.split("_");
-    // var encryptCountry = encryptDecrypt.encrypt(arrayDatac[1]);
-    // var state = post.state;
-    // var arrayDataState = state.split("_");
-    // var encryptState = encryptDecrypt.encrypt(arrayDataState[2]);
-    // var city = encryptDecrypt.encrypt(post.city);
-    var zipCode = encryptDecrypt.encrypt(post.zipCode);
-    // var datetime = new Date();
-    // var date = datetime.toISOString().slice(0, 10);
-    // var hours = datetime.getHours();
-    // var minutes = datetime.getMinutes();
-    // var seconds = datetime.getSeconds();
-    // var dateTimeVaues = date + " " + hours + ":" + minutes + ":" + seconds;
-    //console.log(url);
-    var sql = `update user_profile set user_id='${user_id}' WHERE wallet_id=${wallet_id}`;
-    // userId +
-    // "', first_name='" +
-    // firstName +
-    // "',last_name='" +
-    // lastName +
-    // "', phone_no='" +
-    // mobileNo +
-    // "',email_id='" +
-    // emailId +
-    // "',address_line1='" +
-    // address1 +
-    // "',address_line2='" +
-    // address2 +
-    // "',zip_code='" +
-    // zipCode +
-    // "',city_name='" +
-    // city +
-    // "',state_name='" +
-    // encryptState +
-    // "',country_name='" +
-    // encryptCountry +
-    // "'WHERE wallet_id='" +
-    // wallet_id;
-    var updateData = [user_id, wallet_id];
-    //     "','" +
-    //     firstName +
-    //     "','" +
-    //     lastName +
-    //     "','" +
-    //     emailId +
-    //     "','" +
-    //     mobileNo +
-    //     "','" +
-    //     address1 +
-    //     "','" +
-    //     address2 +
-    //     "','" +
-    //     zipCode +
-    //     "','" +
-    //     city +
-    //     "','" +
-    //     encryptState +
-    //     "','" +
-    //     encryptCountry +
-    //     "','" +
-    //     wallet_id,
-    // ];
+    if (country) {
+      var arrayDatac = country.split("_");
+      var country_name = encryptDecrypt.encrypt(arrayDatac[1]);
+    }
+    else {
+      var country_name="";
+    }
+
+    var state = post.state;
+    if (state) {
+      var arrayDataState = state.split("_");
+      var state_name = encryptDecrypt.encrypt(arrayDataState[2]);
+    }
+    else {
+      var state_name="";
+    }
+    if (post.city) {
+      var city_name = encryptDecrypt.encrypt(post.city);
+    }
+    else {
+      var city_name="";
+    }
+    if (post.city) {
+      var zip_code = encryptDecrypt.encrypt(post.zipCode);
+    }
+    else {
+      var zip_code="";
+    }
+    if (post.language) {
+      var language = encryptDecrypt.encrypt(post.language);
+    }
+    else {
+      var language="";
+    }
+    if (post.interest) {
+      var interest = encryptDecrypt.encrypt(post.interest);
+    }
+    else {
+      var interest="";
+    }
+    var sql = `update user_profile set user_id='${user_id}',first_name='${first_name}',last_name='${last_name}',phone_no='${phone_no}',email_id='${email_id}',address_line1='${address_line1}',address_line2='${address_line2}',zip_code='${zip_code}',city_name='${city_name}',state_name='${state_name}',country_name='${country_name}',language='${language}',interest='${interest}' WHERE wallet_id='${wallet_id}'`;
+
     var query = db.query(sql, function (err, result) {
       if (err) throw err;
-      console.log(data.affectedRows + " record(s) updated");
+      //console.log(result.affectedRows + " record(s) updated");
 
-      message = "Succesfully! updated your details.";
+      //message = "Succesfully! updated your details.";
       //res.render('signup.ejs',{message: message});
       //console.log(encryptDecrypt.decrypt(encryptSearchValue));
-      console.log(result);
+      //console.log(sql);
       res.redirect("/profileDetails");
       //res.render("../views/pages/profile-details", { message: message });
     });
@@ -186,7 +207,7 @@ const updateProfileData = function (req, res) {
 };
 // end the profile data
 const getSearchHistory = (req, res) => {
-  var sql = "SELECT * FROM `search_history`";
+  var sql = "SELECT * FROM `search_history` ORDER BY id DESC";
   //console.log(req.session.metaUser);
   //var sessuser = req.session.metaUser;
   //console.log(sessuser);
@@ -211,35 +232,114 @@ const getSearchHistory = (req, res) => {
 // end the profile data
 const getProfileDetails = (req, res) => {
   var wallet_id = req.session.metaUser;
-  // var sql =
-  //   "SELECT * FROM `user_profile` WHERE `wallet_id`='" + wallet_id + "'";
-  // //console.log(req.session.metaUser);
-  // //var sessuser = req.session.metaUser;
-  // //console.log(sessuser);
-  // //var sql = "SELECT * FROM `search_history` WHERE `id`='"+userId+"'";
-  // var query = db.query(sql, function (err, results, fields) {
-  //   var arrayData = [];
-  //   let arrayValues = results.map((arrayData) => {
-  //     return {
-  //       user_id: encryptDecrypt.decrypt(arrayData.user_id),
-  //       wallet_id: arrayData.wallet_id,
-  //       first_name: encryptDecrypt.decrypt(arrayData.first_name),
-  //       last_name: encryptDecrypt.decrypt(arrayData.last_name),
-  //       phone_no: encryptDecrypt.decrypt(arrayData.phone_no),
-  //       email_id: encryptDecrypt.decrypt(arrayData.email_id),
-  //       address_line1: encryptDecrypt.decrypt(arrayData.address_line1),
-  //       address_line1: encryptDecrypt.decrypt(arrayData.address_line2),
-  //       zip_code: encryptDecrypt.decrypt(arrayData.zip_code),
-  //       city_name: encryptDecrypt.decrypt(arrayData.city_name),
-  //       state_name: encryptDecrypt.decrypt(arrayData.state_name),
-  //       country_name: encryptDecrypt.decrypt(arrayData.country_name),
-
-  //       language: arrayData.language,
-  //     };
-  //   });
-  //console.log(arrayValues);
-  res.render("../views/pages/profile-details");
-  //});
+  var sql =
+    "SELECT * FROM `user_profile` WHERE `wallet_id`='" + wallet_id + "'";
+  //console.log(req.session.metaUser);
+  //var sessuser = req.session.metaUser;
+  //console.log(sql);
+  //var sql = "SELECT * FROM `search_history` WHERE `id`='"+userId+"'";
+  var query = db.query(sql, function (err, results, fields) {
+    var arrayData = [];
+    var arrayValues = results.map((arrayData) => {
+      if(arrayData.user_id)
+      {
+        var encrpteuserid=encryptDecrypt.decrypt(arrayData.user_id);
+      }
+      else{
+        var encrpteuserid=" ";
+      }
+      if(arrayData.first_name)
+      {
+        var encrpteFirstName=encryptDecrypt.decrypt(arrayData.first_name);
+      }
+      else{
+        var encrpteFirstName=" ";
+      }
+      if(arrayData.last_name)
+      {
+        var encrpteLasttName=encryptDecrypt.decrypt(arrayData.last_name);
+      }
+      else{
+        var encrpteLasttName=" ";
+      }
+      if(arrayData.phone_no)
+      {
+        var encrptePhoneNo=encryptDecrypt.decrypt(arrayData.phone_no);
+      }
+      else{
+        var encrptePhoneNo=" ";
+      }
+      if(arrayData.email_id)
+      {
+        var encrpteEmailId=encryptDecrypt.decrypt(arrayData.email_id);
+      }
+      else{
+        var encrpteEmailId=" ";
+      }
+      if(arrayData.address_line1)
+      {
+        var encrpteAddress1=encryptDecrypt.decrypt(arrayData.address_line1);
+      }
+      else{
+        var encrpteAddress1=" ";
+      }
+      if(arrayData.address_line2)
+      {
+        var encrpteAddress2=encryptDecrypt.decrypt(arrayData.address_line2);
+      }
+      else{
+        var encrpteAddress2=" ";
+      }
+      if(arrayData.zip_code)
+      {
+        var encrpteZipcode=encryptDecrypt.decrypt(arrayData.zip_code);
+      }
+      else{
+        var encrpteZipcode=" ";
+      }
+      if(arrayData.city_name)
+      {
+        var encrpteCity=encryptDecrypt.decrypt(arrayData.city_name);
+      }
+      else{
+        var encrpteCity=" ";
+      }
+      if(arrayData.state_name)
+      {
+        var encrpteState=encryptDecrypt.decrypt(arrayData.state_name);
+      }
+      else{
+        var encrpteState=" ";
+      }
+      if(arrayData.country_name)
+      {
+        var encrpteCountry=encryptDecrypt.decrypt(arrayData.country_name);
+      }
+      else{
+        var encrpteCountry=" ";
+      }
+      return {
+        user_id: encrpteuserid,
+        wallet_id: arrayData.wallet_id,
+        first_name: encrpteFirstName,
+        last_name: encrpteLasttName,
+        phone_no: encrptePhoneNo,
+        email_id: encrpteEmailId,
+        address_line1:encrpteAddress1,
+        address_line2: encrpteAddress2,
+        zip_code:encrpteZipcode,
+        city_name:encrpteCity,
+        state_name:encrpteState,
+        country_name:encrpteCountry,
+        language: arrayData.language,
+      };
+    });
+    //console.log(arrayValues);
+    //var message = "Succesfully! updated your details.";
+    //console.log(message);
+    res.render("../views/pages/profileDetails", { data: arrayValues });
+    //});
+  });
 };
 const dashboard = (req, res) => {
   //req.session.metaUser = "mukesh kumar";
@@ -247,17 +347,116 @@ const dashboard = (req, res) => {
 };
 const profile = (req, res) => {
   let countryList = Country.getAllCountries();
-  // var sql = "SELECT * FROM `countries` ORDER BY name ASC";
-  // var query = db.query(sql, function (err, results, fields) {
-  //   var arrayData = [];
-  //   let arrayValues = results.map((arrayData) => {
-  //     return {
-  //       name: encryptDecrypt.decrypt(arrayData.name),
-  //       iso_code: arrayData.iso_code,
-  //     };
-  //   });
-  // console.log(arrayValues);
-  res.render("../views/pages/user-profile", { data: countryList });
+  var wallet_id = req.session.metaUser;
+  var sql =
+    "SELECT * FROM `user_profile` WHERE `wallet_id`='" + wallet_id + "'";
+  //console.log(req.session.metaUser);
+  //var sessuser = req.session.metaUser;
+  //console.log(sql);
+  //var sql = "SELECT * FROM `search_history` WHERE `id`='"+userId+"'";
+  var query = db.query(sql, function (err, results, fields) {
+    var arrayData = [];
+    var arrayValues = results.map((arrayData) => {
+      if(arrayData.user_id)
+      {
+        var encrpteuserid=encryptDecrypt.decrypt(arrayData.user_id);
+      }
+      else{
+        var encrpteuserid=" ";
+      }
+      if(arrayData.first_name)
+      {
+        var encrpteFirstName=encryptDecrypt.decrypt(arrayData.first_name);
+      }
+      else{
+        var encrpteFirstName=" ";
+      }
+      if(arrayData.last_name)
+      {
+        var encrpteLasttName=encryptDecrypt.decrypt(arrayData.last_name);
+      }
+      else{
+        var encrpteLasttName=" ";
+      }
+      if(arrayData.phone_no)
+      {
+        var encrptePhoneNo=encryptDecrypt.decrypt(arrayData.phone_no);
+      }
+      else{
+        var encrptePhoneNo=" ";
+      }
+      if(arrayData.email_id)
+      {
+        var encrpteEmailId=encryptDecrypt.decrypt(arrayData.email_id);
+      }
+      else{
+        var encrpteEmailId=" ";
+      }
+      if(arrayData.address_line1)
+      {
+        var encrpteAddress1=encryptDecrypt.decrypt(arrayData.address_line1);
+      }
+      else{
+        var encrpteAddress1=" ";
+      }
+      if(arrayData.address_line2)
+      {
+        var encrpteAddress2=encryptDecrypt.decrypt(arrayData.address_line2);
+      }
+      else{
+        var encrpteAddress2=" ";
+      }
+      if(arrayData.zip_code)
+      {
+        var encrpteZipcode=encryptDecrypt.decrypt(arrayData.zip_code);
+      }
+      else{
+        var encrpteZipcode=" ";
+      }
+      if(arrayData.city_name)
+      {
+        var encrpteCity=encryptDecrypt.decrypt(arrayData.city_name);
+      }
+      else{
+        var encrpteCity=" ";
+      }
+      if(arrayData.state_name)
+      {
+        var encrpteState=encryptDecrypt.decrypt(arrayData.state_name);
+      }
+      else{
+        var encrpteState=" ";
+      }
+      if(arrayData.country_name)
+      {
+        var encrpteCountry=encryptDecrypt.decrypt(arrayData.country_name);
+      }
+      else{
+        var encrpteCountry=" ";
+      }
+      return {
+        user_id: encrpteuserid,
+        wallet_id: arrayData.wallet_id,
+        first_name: encrpteFirstName,
+        last_name: encrpteLasttName,
+        phone_no: encrptePhoneNo,
+        email_id: encrpteEmailId,
+        address_line1:encrpteAddress1,
+        address_line2: encrpteAddress2,
+        zip_code:encrpteZipcode,
+        city_name:encrpteCity,
+        state_name:encrpteState,
+        country_name:encrpteCountry,
+        language: arrayData.language,
+      };
+    });
+    //console.log(arrayValues);
+    //var message = "Succesfully! updated your details.";
+    //console.log(message);
+    res.render("../views/pages/user-profile", { data: arrayValues });
+    //});
+  });
+ 
   // });
 };
 const countryStateCity = (req, res) => {
