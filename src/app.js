@@ -26,6 +26,8 @@ app.use(
 );
 app.use(function (req, res, next) {
   res.locals.metaUser = req.session.metaUser;
+  res.locals.tokenized = req.session.tokenized;
+  res.locals.monetize = req.session.monetize;
   next();
 });
 const middlewareFunction = function (req, res, next) {
@@ -37,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.get("/", router);
-app.post("/searchTerm", middlewareFunction, router);
+app.post("/searchTerm", router);
 app.get("/searchHistory", middlewareFunction, router);
 app.get("/dashboard", middlewareFunction, router);
 app.get("/profile", middlewareFunction, router);

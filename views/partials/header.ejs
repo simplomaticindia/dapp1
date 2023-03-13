@@ -71,12 +71,18 @@
 					
 					<li><div class="nav-link" style="padding-left:20px;">
 						<div class="form-check form-switch">
-						
-						<label class="form-check-label" for="flexSwitchCheckDefault">Do Not Shared</label>
-						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />	  
+						  <%
+  var condition = "Y";
+%>
+						<label class="form-check-label" for="flexSwitchCheckDefault">Monetize</label>
+						<input class="form-check-input" <% if (monetize == condition) { %>
+ checked
+<% } %> type="checkbox" role="switch" id="flexSwitchCheckDefault" />	  
 					</div></div>
 					  </li>
 					  <li> 
+					
+
 					  </li>
 				</li>
 				<li>
@@ -85,8 +91,10 @@
 				
 				<li>
 					<div class="nav-link" style="padding-left:20px;"><div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
-						<label class="form-check-label" for="flexSwitchCheckDefault">Shared</label>
+		<input class="form-check-input" type="checkbox" <% if (tokenized == condition) { %>
+ checked
+<% } %> role="switch" id="flexSwitchCheckDefault" />
+						<label class="form-check-label" for="flexSwitchCheckDefault">Tokenized</label>
 					  </div></div>
 				</li>
 				<hr class="dropdown-divider" />

@@ -15,14 +15,15 @@
               <tr>
                 <th scope="col">Session Id</th>
                 <th scope="col">Search Term</th>
-                <th scope="col">Session Details</th>
+                <th scope="col">Session start</th>
           
                 <th scope="col">Tokanize</th>
-                <th scope="col">Search Date</th>
                 <!-- <th scope="col">Action</th> -->
                 
               </tr>
             </thead>
+          
+
             <tbody>
                 <% if(data.length){ %>
  
@@ -34,8 +35,8 @@
                         <td><a class="navbar-brand mt-2 mt-lg-0" href="/searchHistory"><%=item.search_term%></a></td>
                       <td><%=item.session_start%></td>
   
-                      <td><%=item.share_flag%></td>
-                      <td><%=item.searchDate%></td>
+                      <td><%=item.tokenized%></td>
+                     
                       <!-- <td><button type="submit" class="btn btn-primary center" type="submit">Share</button></td> -->
                     
                        </tr>

@@ -18,23 +18,40 @@ const searchIndex = (req, res) => {
 const login = (req, res) => {
   var post = req.body;
   var metaMaskId = post.metaMaskId;
-  console.log(metaMaskId);
+  //console.log(metaMaskId);
   //var sessionId = generateSessionId()
   //let account = "mukesh";
 
   var sqlQuery =
-    "SELECT wallet_id FROM `user_profile` WHERE `wallet_id`='" +
+    "SELECT wallet_id,tokenized,monetize FROM `user_profile` WHERE `wallet_id`='" +
     metaMaskId +
     "'";
   db.query(sqlQuery, function (err, results) {
     if (results.length) {
       req.session.metaUser = results[0].wallet_id;
+      req.session.userLanguage = results[0].language;
+      req.session.tokenized = results[0].tokenized;
+      req.session.monetize = results[0].monetize;
       req.session.save();
     } else {
+      var language = "english";
+      var tokenized = "N";
+      var monetize = "N";
       var sql =
-        "INSERT INTO `user_profile`(`wallet_id`) VALUES ('" + metaMaskId + "')";
+        "INSERT INTO `user_profile`(`wallet_id`,`language`,`tokenized`,`monetize`) VALUES ('" +
+        metaMaskId +
+        "','" +
+        language +
+        "','" +
+        tokenized +
+        "','" +
+        monetize +
+        "')";
       var query = db.query(sql);
       req.session.metaUser = metaMaskId;
+      req.session.userLanguage = language;
+      req.session.tokenized = tokenized;
+      req.session.monetize = monetize;
       req.session.save();
     }
   });
@@ -48,17 +65,15 @@ const logout = function (req, res) {
   });
 };
 //end logout section
+//insert search term data into table..
 const getSearchData = function (req, res) {
   message = "";
   if (req.method == "POST") {
     var post = req.body;
+    //console.log(req.body);
 
     var searchtermtext = post.searchtermtext;
     var encryptSearchValueData = encryptDecrypt.encrypt(searchtermtext);
-    //var encryptSearchValue= JSON.stringify(encryptSearchValueData);
-    // var encryptSearchValue=encryptSearchValueData.encryptedData;
-    //console.log(encryptDecrypt.encrypt(searchtermtext));
-    //console.log(encryptDecrypt.decrypt(encryptSearchValue));
     var searchLink = searchtermtext.split(" ").join("+");
     var url = req.headers.host + "" + req.url + "?searchtermtext=" + searchLink;
     var urlLink = encryptDecrypt.encrypt(url);
@@ -70,12 +85,32 @@ const getSearchData = function (req, res) {
     var minutes = datetime.getMinutes();
     var seconds = datetime.getSeconds();
     var dateTimeVaues = date + " " + hours + ":" + minutes + ":" + seconds;
+    var wallet_id = req.session.metaUser;
+    if (wallet_id) {
+      var wallet_id = req.session.metaUser;
+      var tokenized = req.session.tokenized;
+      var monetize = req.session.monetize;
+    } else {
+      var wallet_id = "guest";
+      var tokenized = "N";
+      var monetize = "N";
+    }
+
+    var session_id = req.session.id;
     //console.log(url);
     var sql =
-      "INSERT INTO `search_history`(`search_term`,`share_flag`,`link`,`created_date`,`updated_date` ) VALUES ('" +
+      "INSERT INTO `search_history`(`session_id`,`session_start`,`search_term`,`user_id`,`tokenized`,`monetize`,`link`,`created_date`,`updated_date` ) VALUES ('" +
+      session_id +
+      "','" +
+      dateTimeVaues +
+      "','" +
       encryptSearchValueData +
       "','" +
-      shareFlag +
+      wallet_id +
+      "','" +
+      tokenized +
+      "','" +
+      monetize +
       "','" +
       urlLink +
       "','" +
@@ -92,8 +127,10 @@ const getSearchData = function (req, res) {
       res.render("../views/pages/search", { message: message });
     });
   } else {
+    //console.log("this out of content.");
     res.render("../views/pages/search");
   }
+  res.redirect("/");
 };
 // For View
 //update profile data
@@ -106,89 +143,74 @@ const updateProfileData = function (req, res) {
     //console.log(wallet_id);
     if (post.userId) {
       var user_id = encryptDecrypt.encrypt(post.userId);
-    }
-    else {
-      var user_id="";
+    } else {
+      var user_id = "";
     }
     if (post.firstName) {
       var first_name = encryptDecrypt.encrypt(post.firstName);
-    }
-    else {
-      var first_name="";
+    } else {
+      var first_name = "";
     }
     if (post.lastName) {
       var last_name = encryptDecrypt.encrypt(post.lastName);
-    }
-    else {
-      var last_name="";
+    } else {
+      var last_name = "";
     }
     if (post.emailId) {
       var email_id = encryptDecrypt.encrypt(post.emailId);
-    }
-    else {
-      var email_id="";
+    } else {
+      var email_id = "";
     }
     if (post.mobileNo) {
       var phone_no = encryptDecrypt.encrypt(post.mobileNo);
-    }
-    else {
-      var phone_no="";
+    } else {
+      var phone_no = "";
     }
     if (post.address1) {
       var address_line1 = encryptDecrypt.encrypt(post.address1);
-    }
-    else {
-      var address_line1="";
+    } else {
+      var address_line1 = "";
     }
     if (post.address2) {
       var address_line2 = encryptDecrypt.encrypt(post.address2);
+    } else {
+      var address_line2 = "";
     }
-    else {
-      var address_line2="";
-    }
-   
-    
-    
+
     var country = post.country;
     if (country) {
       var arrayDatac = country.split("_");
       var country_name = encryptDecrypt.encrypt(arrayDatac[1]);
-    }
-    else {
-      var country_name="";
+    } else {
+      var country_name = "";
     }
 
     var state = post.state;
     if (state) {
       var arrayDataState = state.split("_");
       var state_name = encryptDecrypt.encrypt(arrayDataState[2]);
-    }
-    else {
-      var state_name="";
+    } else {
+      var state_name = "";
     }
     if (post.city) {
       var city_name = encryptDecrypt.encrypt(post.city);
-    }
-    else {
-      var city_name="";
+    } else {
+      var city_name = "";
     }
     if (post.city) {
       var zip_code = encryptDecrypt.encrypt(post.zipCode);
-    }
-    else {
-      var zip_code="";
+    } else {
+      var zip_code = "";
     }
     if (post.language) {
       var language = encryptDecrypt.encrypt(post.language);
-    }
-    else {
-      var language="";
+    } else {
+      var language = "";
     }
     if (post.interest) {
       var interest = encryptDecrypt.encrypt(post.interest);
-    }
-    else {
-      var interest="";
+    } else {
+      var interest = "";
     }
     var sql = `update user_profile set user_id='${user_id}',first_name='${first_name}',last_name='${last_name}',phone_no='${phone_no}',email_id='${email_id}',address_line1='${address_line1}',address_line2='${address_line2}',zip_code='${zip_code}',city_name='${city_name}',state_name='${state_name}',country_name='${country_name}',language='${language}',interest='${interest}' WHERE wallet_id='${wallet_id}'`;
 
@@ -207,7 +229,11 @@ const updateProfileData = function (req, res) {
 };
 // end the profile data
 const getSearchHistory = (req, res) => {
-  var sql = "SELECT * FROM `search_history` ORDER BY id DESC";
+  var wallet_id = req.session.metaUser;
+  var sql =
+    "SELECT * FROM `search_history` WHERE user_id='" +
+    wallet_id +
+    "' ORDER BY id DESC";
   //console.log(req.session.metaUser);
   //var sessuser = req.session.metaUser;
   //console.log(sessuser);
@@ -216,12 +242,15 @@ const getSearchHistory = (req, res) => {
     var arrayData = [];
     let sr = 1;
     let arrayValues = results.map((arrayData) => {
+      var starttime = new Date(arrayData.session_start.toUTCString());
       return {
         srNo: sr++,
+        session_id: arrayData.session_id,
         search_term: encryptDecrypt.decrypt(arrayData.search_term),
-        session_start: arrayData.session_start,
+        session_start: starttime,
         link: encryptDecrypt.decrypt(arrayData.link),
-        share_flag: arrayData.share_flag,
+        tokenized: arrayData.tokenized,
+        monetize: arrayData.monetize,
         searchDate: arrayData.created_date,
       };
     });
@@ -241,82 +270,60 @@ const getProfileDetails = (req, res) => {
   var query = db.query(sql, function (err, results, fields) {
     var arrayData = [];
     var arrayValues = results.map((arrayData) => {
-      if(arrayData.user_id)
-      {
-        var encrpteuserid=encryptDecrypt.decrypt(arrayData.user_id);
+      if (arrayData.user_id) {
+        var encrpteuserid = encryptDecrypt.decrypt(arrayData.user_id);
+      } else {
+        var encrpteuserid = " ";
       }
-      else{
-        var encrpteuserid=" ";
+      if (arrayData.first_name) {
+        var encrpteFirstName = encryptDecrypt.decrypt(arrayData.first_name);
+      } else {
+        var encrpteFirstName = " ";
       }
-      if(arrayData.first_name)
-      {
-        var encrpteFirstName=encryptDecrypt.decrypt(arrayData.first_name);
+      if (arrayData.last_name) {
+        var encrpteLasttName = encryptDecrypt.decrypt(arrayData.last_name);
+      } else {
+        var encrpteLasttName = " ";
       }
-      else{
-        var encrpteFirstName=" ";
+      if (arrayData.phone_no) {
+        var encrptePhoneNo = encryptDecrypt.decrypt(arrayData.phone_no);
+      } else {
+        var encrptePhoneNo = " ";
       }
-      if(arrayData.last_name)
-      {
-        var encrpteLasttName=encryptDecrypt.decrypt(arrayData.last_name);
+      if (arrayData.email_id) {
+        var encrpteEmailId = encryptDecrypt.decrypt(arrayData.email_id);
+      } else {
+        var encrpteEmailId = " ";
       }
-      else{
-        var encrpteLasttName=" ";
+      if (arrayData.address_line1) {
+        var encrpteAddress1 = encryptDecrypt.decrypt(arrayData.address_line1);
+      } else {
+        var encrpteAddress1 = " ";
       }
-      if(arrayData.phone_no)
-      {
-        var encrptePhoneNo=encryptDecrypt.decrypt(arrayData.phone_no);
+      if (arrayData.address_line2) {
+        var encrpteAddress2 = encryptDecrypt.decrypt(arrayData.address_line2);
+      } else {
+        var encrpteAddress2 = " ";
       }
-      else{
-        var encrptePhoneNo=" ";
+      if (arrayData.zip_code) {
+        var encrpteZipcode = encryptDecrypt.decrypt(arrayData.zip_code);
+      } else {
+        var encrpteZipcode = " ";
       }
-      if(arrayData.email_id)
-      {
-        var encrpteEmailId=encryptDecrypt.decrypt(arrayData.email_id);
+      if (arrayData.city_name) {
+        var encrpteCity = encryptDecrypt.decrypt(arrayData.city_name);
+      } else {
+        var encrpteCity = " ";
       }
-      else{
-        var encrpteEmailId=" ";
+      if (arrayData.state_name) {
+        var encrpteState = encryptDecrypt.decrypt(arrayData.state_name);
+      } else {
+        var encrpteState = " ";
       }
-      if(arrayData.address_line1)
-      {
-        var encrpteAddress1=encryptDecrypt.decrypt(arrayData.address_line1);
-      }
-      else{
-        var encrpteAddress1=" ";
-      }
-      if(arrayData.address_line2)
-      {
-        var encrpteAddress2=encryptDecrypt.decrypt(arrayData.address_line2);
-      }
-      else{
-        var encrpteAddress2=" ";
-      }
-      if(arrayData.zip_code)
-      {
-        var encrpteZipcode=encryptDecrypt.decrypt(arrayData.zip_code);
-      }
-      else{
-        var encrpteZipcode=" ";
-      }
-      if(arrayData.city_name)
-      {
-        var encrpteCity=encryptDecrypt.decrypt(arrayData.city_name);
-      }
-      else{
-        var encrpteCity=" ";
-      }
-      if(arrayData.state_name)
-      {
-        var encrpteState=encryptDecrypt.decrypt(arrayData.state_name);
-      }
-      else{
-        var encrpteState=" ";
-      }
-      if(arrayData.country_name)
-      {
-        var encrpteCountry=encryptDecrypt.decrypt(arrayData.country_name);
-      }
-      else{
-        var encrpteCountry=" ";
+      if (arrayData.country_name) {
+        var encrpteCountry = encryptDecrypt.decrypt(arrayData.country_name);
+      } else {
+        var encrpteCountry = " ";
       }
       return {
         user_id: encrpteuserid,
@@ -325,12 +332,12 @@ const getProfileDetails = (req, res) => {
         last_name: encrpteLasttName,
         phone_no: encrptePhoneNo,
         email_id: encrpteEmailId,
-        address_line1:encrpteAddress1,
+        address_line1: encrpteAddress1,
         address_line2: encrpteAddress2,
-        zip_code:encrpteZipcode,
-        city_name:encrpteCity,
-        state_name:encrpteState,
-        country_name:encrpteCountry,
+        zip_code: encrpteZipcode,
+        city_name: encrpteCity,
+        state_name: encrpteState,
+        country_name: encrpteCountry,
         language: arrayData.language,
       };
     });
@@ -357,82 +364,60 @@ const profile = (req, res) => {
   var query = db.query(sql, function (err, results, fields) {
     var arrayData = [];
     var arrayValues = results.map((arrayData) => {
-      if(arrayData.user_id)
-      {
-        var encrpteuserid=encryptDecrypt.decrypt(arrayData.user_id);
+      if (arrayData.user_id) {
+        var encrpteuserid = encryptDecrypt.decrypt(arrayData.user_id);
+      } else {
+        var encrpteuserid = " ";
       }
-      else{
-        var encrpteuserid=" ";
+      if (arrayData.first_name) {
+        var encrpteFirstName = encryptDecrypt.decrypt(arrayData.first_name);
+      } else {
+        var encrpteFirstName = " ";
       }
-      if(arrayData.first_name)
-      {
-        var encrpteFirstName=encryptDecrypt.decrypt(arrayData.first_name);
+      if (arrayData.last_name) {
+        var encrpteLasttName = encryptDecrypt.decrypt(arrayData.last_name);
+      } else {
+        var encrpteLasttName = " ";
       }
-      else{
-        var encrpteFirstName=" ";
+      if (arrayData.phone_no) {
+        var encrptePhoneNo = encryptDecrypt.decrypt(arrayData.phone_no);
+      } else {
+        var encrptePhoneNo = " ";
       }
-      if(arrayData.last_name)
-      {
-        var encrpteLasttName=encryptDecrypt.decrypt(arrayData.last_name);
+      if (arrayData.email_id) {
+        var encrpteEmailId = encryptDecrypt.decrypt(arrayData.email_id);
+      } else {
+        var encrpteEmailId = " ";
       }
-      else{
-        var encrpteLasttName=" ";
+      if (arrayData.address_line1) {
+        var encrpteAddress1 = encryptDecrypt.decrypt(arrayData.address_line1);
+      } else {
+        var encrpteAddress1 = " ";
       }
-      if(arrayData.phone_no)
-      {
-        var encrptePhoneNo=encryptDecrypt.decrypt(arrayData.phone_no);
+      if (arrayData.address_line2) {
+        var encrpteAddress2 = encryptDecrypt.decrypt(arrayData.address_line2);
+      } else {
+        var encrpteAddress2 = " ";
       }
-      else{
-        var encrptePhoneNo=" ";
+      if (arrayData.zip_code) {
+        var encrpteZipcode = encryptDecrypt.decrypt(arrayData.zip_code);
+      } else {
+        var encrpteZipcode = " ";
       }
-      if(arrayData.email_id)
-      {
-        var encrpteEmailId=encryptDecrypt.decrypt(arrayData.email_id);
+      if (arrayData.city_name) {
+        var encrpteCity = encryptDecrypt.decrypt(arrayData.city_name);
+      } else {
+        var encrpteCity = " ";
       }
-      else{
-        var encrpteEmailId=" ";
+      if (arrayData.state_name) {
+        var encrpteState = encryptDecrypt.decrypt(arrayData.state_name);
+      } else {
+        var encrpteState = " ";
       }
-      if(arrayData.address_line1)
-      {
-        var encrpteAddress1=encryptDecrypt.decrypt(arrayData.address_line1);
-      }
-      else{
-        var encrpteAddress1=" ";
-      }
-      if(arrayData.address_line2)
-      {
-        var encrpteAddress2=encryptDecrypt.decrypt(arrayData.address_line2);
-      }
-      else{
-        var encrpteAddress2=" ";
-      }
-      if(arrayData.zip_code)
-      {
-        var encrpteZipcode=encryptDecrypt.decrypt(arrayData.zip_code);
-      }
-      else{
-        var encrpteZipcode=" ";
-      }
-      if(arrayData.city_name)
-      {
-        var encrpteCity=encryptDecrypt.decrypt(arrayData.city_name);
-      }
-      else{
-        var encrpteCity=" ";
-      }
-      if(arrayData.state_name)
-      {
-        var encrpteState=encryptDecrypt.decrypt(arrayData.state_name);
-      }
-      else{
-        var encrpteState=" ";
-      }
-      if(arrayData.country_name)
-      {
-        var encrpteCountry=encryptDecrypt.decrypt(arrayData.country_name);
-      }
-      else{
-        var encrpteCountry=" ";
+      if (arrayData.country_name) {
+        var encrpteCountry = encryptDecrypt.decrypt(arrayData.country_name);
+      } else {
+        var encrpteCountry = " ";
       }
       return {
         user_id: encrpteuserid,
@@ -441,12 +426,12 @@ const profile = (req, res) => {
         last_name: encrpteLasttName,
         phone_no: encrptePhoneNo,
         email_id: encrpteEmailId,
-        address_line1:encrpteAddress1,
+        address_line1: encrpteAddress1,
         address_line2: encrpteAddress2,
-        zip_code:encrpteZipcode,
-        city_name:encrpteCity,
-        state_name:encrpteState,
-        country_name:encrpteCountry,
+        zip_code: encrpteZipcode,
+        city_name: encrpteCity,
+        state_name: encrpteState,
+        country_name: encrpteCountry,
         language: arrayData.language,
       };
     });
@@ -456,7 +441,7 @@ const profile = (req, res) => {
     res.render("../views/pages/user-profile", { data: arrayValues });
     //});
   });
- 
+
   // });
 };
 const countryStateCity = (req, res) => {
