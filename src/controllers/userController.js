@@ -26,8 +26,9 @@ const login = (req, res) => {
     "SELECT wallet_id,tokenized,monetize FROM `user_profile` WHERE `wallet_id`='" +
     metaMaskId +
     "'";
-  db.query(sqlQuery, function (err, results) {
-    if (results.length) {
+  db.query(sqlQuery, function (err, result) {
+    const results = result?.length || 0;
+    if (results.length > 0) {
       req.session.metaUser = results[0].wallet_id;
       req.session.userLanguage = results[0].language;
       req.session.tokenized = results[0].tokenized;
