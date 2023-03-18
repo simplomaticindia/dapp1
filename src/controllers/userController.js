@@ -450,6 +450,8 @@ const getSearchHistory = (req, res) => {
   var query = db.query(sql, function (err, results, fields) {
     var arrayData = [];
     let sr = 1;
+    var searchCount = results.length;
+    //console.log(searchCount);
     let arrayValues = results.map((arrayData) => {
       var starttime = new Date(arrayData.session_start);
       var hours = starttime.getHours();
@@ -457,6 +459,7 @@ const getSearchHistory = (req, res) => {
       var seconds = ("0" + starttime.getSeconds()).slice(-2);
       var searchtime = hours + ":" + minutes + ":" + seconds;
       //const myDate = new Date("11 May 2021 18:30:01 UTC");
+
       return {
         srNo: sr++,
         id: arrayData.id,
@@ -473,6 +476,7 @@ const getSearchHistory = (req, res) => {
     //console.log(arrayValues);
     res.render("../views/pages/search-data", {
       data: arrayValues,
+      searchCount: searchCount,
     });
   });
 };
@@ -722,7 +726,7 @@ const tokenizedMonetize = function (req, res) {
 };
 const deleteSearchTerm = function (req, res) {
   var id = req.params.id;
-  console.log("mukesh");
+  //console.log("mukesh");
   message = "";
   var sql = "DELETE FROM search_history WHERE id = ?";
   db.query(sql, [id], function (err, data) {
@@ -731,6 +735,9 @@ const deleteSearchTerm = function (req, res) {
     message = "Succesfully deleted your record..";
   });
   res.redirect("/searchHistory");
+};
+const setCookies = function (req, res) {
+  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
 };
 module.exports = {
   searchIndex,
@@ -745,4 +752,189 @@ module.exports = {
   getProfileDetails,
   tokenizedMonetize,
   deleteSearchTerm,
+  setCookies,
 };
+// aoeorofsleDala,onsent);
+//  =getPrtfneeretai.ss
+//   tk  =onsent);
+//  =vaa =honeto
+// ,, cookirConsent, { mdxAge: 50000 });
+// Mel({sSo=hTk m ("usekiooki"",Ssa =hT.no,
+// o
+// tProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };aoeorofsleDala,onsent);
+//  =getPrtfneeretai.ss
+//   tk  =onsent);
+//  =vaa =honeto
+// ,, cookirConsent, { mdxAge: 50000 });
+// Mel({sSo=hTk m ("usekiooki"",Ssa =hT.no,
+// o
+// tProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+// aoeorofsleDala,onsent);
+//  =getPrtfneeretai.ss
+//   tk  =onsent);
+//  =vaa =honeto
+// ,, cookirConsent, { mdxAge: 50000 });
+// Mel({sSo=hTk m ("usekiooki"",Ssa =hT.no,
+// o
+// tProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+// aoeorofsleDala,onsent);
+//  =getPrtfneeretai.ss
+//   tk  =onsent);
+//  =vaa =honeto
+// ,, cookirConsent, { mdxAge: 50000 });
+// Mel({sSo=hTk m ("usekiooki"",Ssa =hT.no,
+// o
+// tProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+// aoeorofsleDala,onsent);
+//  =getPrtfneeretai.ss
+//   tk  =onsent);
+//  =vaa =honeto
+// ,, cookirConsent, { mdxAge: 50000 });
+// Mel({sSo=hTk m ("usekiooki"",Ssa =hT.no,
+// o
+// tProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };

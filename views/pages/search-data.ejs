@@ -15,6 +15,7 @@
             <strong>Your Search History</strong>
           </h5>
           <p> You can control your data </P>
+          <strong>Your Total Search: <%=searchCount%></strong>
         </div>
         <div class="card-body">
        <% if (message) { %>
@@ -64,12 +65,7 @@
                           <label class="form-check-label" for="monetizeToggle<%= item.id %>"></label>
                         </div>
                       </td>
-                      <td>
-                        <div class="form-group">
-                          <input type="text" class="form-control" id="category<%= item.id %>" placeholder="Category"
-                            value="<%= item.category %>" onchange="updateSearchTerm('<%= item.id %>', { category: this.value })">
-                        </div>
-                      </td>
+                       <td><%= item.category %></td>                        
                       <td><a href="/deleteSearchTerm/<%= item.id %>"><button type="button" class="btn btn-danger" onclick="deleteSearchTerm('<%= item.id %>')">Delete</button></a>
                       </td>
                     </tr>
@@ -87,8 +83,6 @@
     </section>
   </div>
 </main>
-
-
   <script>
   function toggleTokenized(switchButton, id) {
   const value = switchButton.checked ? 'Y' : 'N';

@@ -6,7 +6,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const createError = require("http-errors");
 const connection = require("./config/connection");
-
+const cookieParser = require("cookie-parser");
 //console.log(Country.getAllCountries());
 //console.log(State.getAllStates())
 //console.log(City.getAllCities())
@@ -24,10 +24,12 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(cookieParser());
 app.use(function (req, res, next) {
   res.locals.metaUser = req.session.metaUser;
   res.locals.tokenized = req.session.tokenized;
   res.locals.monetize = req.session.monetize;
+  res.locals.cookieConsent = req.session.cookieConsent;
   next();
 });
 const middlewareFunction = function (req, res, next) {
@@ -53,6 +55,7 @@ app.post("/updateProfileData", router);
 app.post("/tokenizedMonetize", middlewareFunction, router);
 app.get("/ProfileDetails", middlewareFunction, router);
 app.get("/deleteSearchTerm/(:id)", middlewareFunction, router);
+app.post("/setCookies", router);
 
 //metamask code
 

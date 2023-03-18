@@ -1,9 +1,10 @@
 const express = require('express');
 const UserController = require('../controllers/userController')
 const countryStateController = require('../controllers/countryStateController')
-
+const cookieParser = require("cookie-parser");
 const app = express();
 const router = express.Router();
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 router.get('/', UserController.searchIndex);
 router.post('/searchTerm', UserController.getSearchData);
@@ -22,5 +23,6 @@ router.post('/tokenizedMonetize', UserController.tokenizedMonetize);
 router.get('/tokenizedMonetize', UserController.tokenizedMonetize);
 router.get('/profileDetails', UserController.getProfileDetails);
 router.get('/deleteSearchTerm/(:id)', UserController.deleteSearchTerm);
+router.post('/setCookies', UserController.setCookies);
 
 module.exports=router;
