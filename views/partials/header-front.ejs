@@ -22,7 +22,7 @@
   <!--Main Navigation-->
   <header>
     <!-- Navbar -->
-    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white bg-primary fixed-top">
+	<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white bg-primary fixed-top">
 		<!-- Container wrapper -->
 		<div class="container-fluid">
 		  <!-- Toggle button -->
@@ -49,17 +49,17 @@
 
 
 			<!-- Icon -->
-			<li class="nav-item"> <a class="nav-link me-3 me-lg-0 enableEthereumButton" href="#" >Connect To MetaMask
-			  </a>
+		
+			 
 			 
 			  <form action="/login" id="metaMaskform" method="POST" >
   <input type="hidden" name="metaMaskId" id="showAccount" class="showAccount">
 </form>
 
 			</li>
-		   
+		   <li> <button type="button" class="btn btn-primary center enableEthereumButton">Connect To MetaMask</button></li>
 		<% } %>	
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min1.js"></script>
+				<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4-rc.1/web3.min1.js"></script> -->
 				<script src="metamask-login.js"></script>
 			 <script>/* To connect using MetaMask */
 			 const ethereumButton = document.querySelector('.enableEthereumButton');
@@ -84,19 +84,47 @@
                
                
 			<!-- Avatar -->
+			
 			<li class="nav-item dropdown">
-			  <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
-				id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-				<img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22"
-				  alt="" loading="lazy" />
-			  </a>
-			  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-				<li><a class="dropdown-item" href="/profileDetails">My profile</a></li>
-				<li><a class="dropdown-item" href="/searchHistory">Search History</a></li>
-				<li><a class="dropdown-item" href="#">Settings</a></li>
-				<li><a class="dropdown-item" href="/logout">Logout</a></li>
-			  </ul>
-			</li>
+		    
+			  </li>
+			<li class="nav-item dropdown">
+			 <div class="form-check form-switch nav-link" style="padding-left:30px;padding-right:40px;">
+							<%
+							 var condition = "Y";
+								%>
+						  <label class="form-check-label" for="flexSwitchCheckDefault">Monetize</label>
+						  <input class="form-check-input" <% if (monetize == condition) { %>
+   checked
+			  <% } %> type="checkbox" role="switch" id="monetizedcheckbox" />	  
+					  </div>
+			 </li>
+			 <li class="nav-item dropdown">
+			 <div class="form-check form-switch nav-link">
+		  <input class="form-check-input" id="tokenize" type="checkbox" <% if (tokenized == condition) { %>
+   checked
+  <% } %> role="switch" id="flexSwitchCheckDefault" />
+						  <label class="form-check-label" for="flexSwitchCheckDefault">Tokenized</label>
+						</div>
+			 </li>
+	
+			  
+			  <!-- Avatar -->
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
+				  id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+				  <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22"
+					alt="" loading="lazy" />
+				</a>
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+				<li><a href="/dashboard" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+					<i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Activity</span>
+				  </a></li>
+				  <li><a class="dropdown-item" href="/profileDetails"><i class="fas fa-user-alt me-3"></i>My profile</a></li>
+				  <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-3"></i>Settings</a></li>
+				  <li><a class="dropdown-item" href="/logout"><i class="fas fa-lock fa-fw me-3"></i>Logout</a></li>
+				</ul>
+			  </li>
 			 <% } %>
 		  </ul>
 		</div>

@@ -40,6 +40,7 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.get("/", router);
 app.post("/searchTerm", router);
+app.get("/searchTerm", router);
 app.get("/searchHistory", middlewareFunction, router);
 app.get("/dashboard", middlewareFunction, router);
 app.get("/profile", middlewareFunction, router);
@@ -49,41 +50,10 @@ app.get("/logout", router);
 app.post("/getstateByCountry", router);
 app.post("/getCityByCountry", router);
 app.post("/updateProfileData", router);
+app.post("/tokenizedMonetize", middlewareFunction, router);
 app.get("/ProfileDetails", middlewareFunction, router);
-// app.post('/getStatesByCountry', function(req, res) {
-// //console.log(req.body.countryCode)
-// console.log('SELECT * FROM all_states WHERE country_code = "' + req.body.countryCode + '"')
-//   let quer=db.query('SELECT * FROM all_states WHERE country_code = "' + req.body.countryCode + '"',
+app.get("/deleteSearchTerm/(:id)", middlewareFunction, router);
 
-//   function(err, rows, fields) {
-
-//       if (err) {
-
-//           res.json({
-
-//               msg: 'error'
-
-//           });
-
-//       }
-
-//       else {
-
-//           res.json({
-
-//               msg: 'success',
-
-//               states: rows
-
-//           });
-
-//       }
-
-//   });
-
-// });
-//console.log(hours+':'+minutes+':'+seconds);
-// Start the server
 //metamask code
 
 //end metamask code

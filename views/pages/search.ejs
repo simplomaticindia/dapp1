@@ -1,56 +1,293 @@
-
 <%- include('../partials/header-front'); %>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
+<link rel="stylesheet" href="/node_modules/cookie-consent-js/src/cookie-consent.css"/>
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script src="/node_modules/cookie-consent-js/src/cookie-consent.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .search-container {
+    padding-top: 100px;
+  }
+  .search-form {
+    text-align: center;
+  }
+  .form-control {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .btn {
+    height: 100%;
+  }
+  .result-item {
+    margin-bottom: 20px;
+  }
+  .result-item-link {
+    font-size: 14px;
+    color: #006621;
+  }
+  .result-item-link a {
+    text-decoration: none;
+  }
+  .result-item-link .dots {
+    font-size: 16px;
+    vertical-align: middle;
+  }
+  .result-item h3 {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  .result-item h3 a {
+    color: #1a0dab;
+    text-decoration: none;
+  }
+  .result-item p {
+    font-size: 14px;
+    color: #545454;
+    line-height: 1.4;
+  }
+</style>
 </head>
 <div class="container-fluid">
-  
-    <div class="row" style="padding-top:100px;">
-        <div class="col-sm">
-         
+  <div class="row search-container">
+    <div class="col-sm"></div>
+    <div class="col-sm">
+      <form action="/searchTerm" method="POST" name="searchform" class="search-form">
+        <p align="center"> <img src="/../public/img/Web3Search.png" height="60" alt="Web3Search" loading="lazy" /></p>
+        <input type="text" name="searchtermtext" class="form-control" placeholder="Search here.." value="" required>
+        <p align="center"><br> <button type="submit" class="btn btn-primary center" type="submit">Search</button></p>
+      </form>
+    </div>
+    <div class="col-sm"></div>
+    <% if (message) { %>
+    <div class="container my-4">
+      <!-- Include your result-item divs here -->
+      <main>
+      <div class="main-container">
+        <div class="search-delay">
+          About 17,000,000 results (0.35 seconds)
         </div>
-        <div class="col-sm">
-            <form action="/searchTerm" method="POST" name="searchform">
-                
-                    <p  align="center"> <img
-          src="/../public/img/Web3Search.png"
-          height="60"
-          alt="Web3Search"
-          loading="lazy"
-        /></p>
-         <% if (message) { %>
-    <h2><%= message %></h2>
-<% } %>
-                    <input type="text" name="searchtermtext" class="form-control" placeholder="Search here.." value="" required>
-                 
-                <p align="center"><br> <button type="submit" class="btn btn-primary center" type="submit">Search</button></p>
-                
-              </form>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#">https://www.codewithwebthrough.com</a>
+            <a href="#"><span class="material-icons-outlined dots">
+                more_vert
+            </span></a>
+
+          </div>
+          <h3><a href="#">Code with webthrough - Best Front-End Components and Blogs</a></h3>
+          <p>
+            codewithwebthrough is an up-to-date collection of accessible front-end components, blogs and tutorials related to technology, programming and web development.
+          </p>
+          <div class="sub-result-container">
+            <div class="sub-result-item">
+              <h3><a href="#">Components</a></h3>
+              <p>Find an up-to-date collection of accessible front-end components ...</p>
+            </div>
+            <div class="sub-result-item">
+              <h3><a href="#">Blogs</a></h3>
+              <p>
+                Get Latest Blogs related to technology, programming ...
+              </p>
+            </div>
+            <div class="sub-result-item">
+              <h3><a href="#">About</a></h3>
+              <p>
+                This is webthrough Choudhary admin of codewithwebthrough.com ...
+              </p>
+            </div>
+            <div class="sub-result-item">
+              <h3><a href="#">Privacy Policy</a></h3>
+              <p>
+                This Privacy Policy applies only to our online activities and is valid for
+                ...
+              </p>
+            </div>
+            <div class="sub-result-item">
+              <h3><a href="#">Contact</a></h3>
+              <p>Lets talk about everything! Whether you have a question ...</p>
+            </div>
+          </div>
         </div>
-        <div class="col-sm">
-         
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#">https://www.codewithwebthrough.com › components </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3><a href="#">Latest Front-End Components - codewithwebthrough</a></h3>
+          <p>
+            Find an up-to-date collection of accessible front-end components. Components are used to define custom, reusable HTML elements.
+          </p>
         </div>
-        <div style="clear:both; padding-top: 15%;"></div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#">https://www.codewithwebthrough.com › contact </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3><a href="#">Code with webthrough - Contact Us - codewithwebthrough</a></h3>
+          <p>
+            Lets talk about everything! Whether you have a question, want to start a project or simply want to connect.
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.instagram.com › @codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">codewithwebthrough (@codewithwebthrough) • Instagram photos and videos</a>
+          </h3>
+          <p>
+            55.5k Followers, 302 Following, 110 Posts - See Instagram photos and
+            videos from <strong>codewithwebthrough</strong> (@<strong>codewithwebthrough</strong>)
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#">https://www.codewithwebthrough.com</a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, laudantium sequi cumque voluptatum natus in?.
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor sit amet.</a>
+          </h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, laudantium sequi cumque voluptatum natus in?.
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com › blogs </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor sit amet consectetur.</a>
+          </h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo repellat deleniti placeat. Dignissimos similique hic quibusdam reiciendis ipsa! Obcaecati, ea..
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor sit amet.</a>
+          </h3>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit molestias recusandae tempora, voluptas hic fugit ad molestiae..
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor, sit amet consectetur adipisicing.</a>
+          </h3>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum, saepe maxime ratione numquam reiciendis expedita impedit voluptatem facere assumenda?
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor sit amet.</a>
+          </h3>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea assumenda perferendis, distinctio qui repellat sapiente amet culpa natus voluptatum repellendus?
+          </p>
+        </div>
+        <section class="pages-nav">
+          <table>
+            <tr>
+              <td>W</td>
+              <td><a href="#" id="first-o">e</a></td>
+              <td><a href="#">b</a></td>
+              <td><a href="#">t</a></td>
+              <td><a href="#">h</a></td>
+              <td><a href="#">r</a></td>
+              <td><a href="#">o</a></td>
+              <td><a href="#">u</a></td>
+              <td><a href="#">g</a></td>
+              <td><a href="#">h</a></td>
+              <td>g</td>
+              <td>l</td>
+              <td>e</td>
+              <td><a href="#">></a></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><a href="#">1</a></td>
+              <td><a href="#">2</a></td>
+              <td><a href="#">3</a></td>
+              <td><a href="#">4</a></td>
+              <td><a href="#">5</a></td>
+              <td><a href="#">6</a></td>
+              <td><a href="#">7</a></td>
+              <td><a href="#">8</a></td>
+              <td><a href="#">9</a></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><a href="#">Next</a></td>
+            </tr>
+          </table>
+        </section>
       </div>
-   
+
+    </main>
+    </div>
+    <% } else { %>
+    <div style="clear:both; padding-top: 15%;"></div>
+    <% } %>
   </div>
- 	<!-- Modal HTML -->
-	
-
-
-
-  
-  <!-- Modal -->
-  
-    <%- include('../partials/footer'); %>
-
-    
-        <script type="text/javascript">
-            $(window).on('load',function(){
-                alert('muekshsdfs');
-                $('#exampleModal').modal('show');
-            });
-            
-        </script>
+  <a href="javascript:cookieConsent.reset()">Cookie settings</a>
+</div>
+<script>
+  const cookieConsent = new CookieConsent({
+    contentUrl: "/node_modules/cookie-consent-js/cookie-consent-content", // location of the language files
+    privacyPolicyUrl: "/privacy-policy.html"
+})
+//cookieSettings.showDialog()
+var cookieConsent = new CookieConsent({
+    autoShowModal: false,
+    privacyPolicyUrl: "privacy-policy.html",
+    contentUrl: "./cookie-consent-content"
+})
+</script>
+<%- include('../partials/footer'); %>

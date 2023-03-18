@@ -1,5 +1,7 @@
 const bodyParser = require("body-parser");
 const session = require("express-session");
+//const EventEmitter = require("events");
+//const emitter = new EventEmitter();
 const url = require("url");
 const Web3 = require("web3");
 const web3 = new Web3();
@@ -21,13 +23,16 @@ const login = (req, res) => {
   //console.log(metaMaskId);
   //var sessionId = generateSessionId()
   //let account = "mukesh";
-
+  // emitter.on("logined", function () {
+  //   console.log("this is the login panel");
+  // });
+  // emitter.emit("logined");
   var sqlQuery =
     "SELECT wallet_id,tokenized,monetize FROM `user_profile` WHERE `wallet_id`='" +
     metaMaskId +
     "'";
-  db.query(sqlQuery, function (err, result) {
-    const results = result?.length || 0;
+  db.query(sqlQuery, function (err, results) {
+    //const results = result.length || 0;
     if (results.length > 0) {
       req.session.metaUser = results[0].wallet_id;
       req.session.userLanguage = results[0].language;
@@ -51,8 +56,8 @@ const login = (req, res) => {
       var query = db.query(sql);
       req.session.metaUser = metaMaskId;
       req.session.userLanguage = language;
-      req.session.tokenized = tokenized;
-      req.session.monetize = monetize;
+      req.session.tokenized = "N";
+      req.session.monetize = "N";
       req.session.save();
     }
   });
@@ -69,6 +74,10 @@ const logout = function (req, res) {
 //insert search term data into table..
 const getSearchData = function (req, res) {
   message = "";
+  urlLink = "";
+  // category search
+
+  //end the category search
   if (req.method == "POST") {
     var post = req.body;
     //console.log(req.body);
@@ -98,9 +107,203 @@ const getSearchData = function (req, res) {
     }
 
     var session_id = req.session.id;
-    //console.log(url);
+
+    // Extract category and subcategory information based on the search term entered by the user
+    var category = "";
+    var subcategory = "";
+    if (
+      searchtermtext.includes("mystery") ||
+      searchtermtext.includes("romance") ||
+      searchtermtext.includes("sci-fi") ||
+      searchtermtext.includes("fantasy") ||
+      searchtermtext.includes("thriller")
+    ) {
+      category = "Books";
+      subcategory = "Fiction";
+    } else if (
+      searchtermtext.includes("history") ||
+      searchtermtext.includes("biography") ||
+      searchtermtext.includes("self-help") ||
+      searchtermtext.includes("memoir") ||
+      searchtermtext.includes("business")
+    ) {
+      category = "Books";
+      subcategory = "Non-fiction";
+    } else if (
+      searchtermtext.includes("picture books") ||
+      searchtermtext.includes("chapter books") ||
+      searchtermtext.includes("activity books") ||
+      searchtermtext.includes("educational books") ||
+      searchtermtext.includes("board books")
+    ) {
+      category = "Books";
+      subcategory = "Children's Books";
+    } else if (
+      searchtermtext.includes("moisturizer") ||
+      searchtermtext.includes("cleanser") ||
+      searchtermtext.includes("sunscreen") ||
+      searchtermtext.includes("serum") ||
+      searchtermtext.includes("toner")
+    ) {
+      category = "Beauty & Personal Care";
+      subcategory = "Skincare";
+    } else if (
+      searchtermtext.includes("foundation") ||
+      searchtermtext.includes("mascara") ||
+      searchtermtext.includes("lipstick") ||
+      searchtermtext.includes("eyeshadow") ||
+      searchtermtext.includes("blush")
+    ) {
+      category = "Beauty & Personal Care";
+      subcategory = "Makeup";
+    } else if (
+      searchtermtext.includes("perfume") ||
+      searchtermtext.includes("cologne") ||
+      searchtermtext.includes("bodyspray") ||
+      searchtermtext.includes("deodorant") ||
+      searchtermtext.includes("aftershave")
+    ) {
+      category = "Beauty & Personal Care";
+      subcategory = "Fragrance";
+    } else if (
+      searchtermtext.includes("laptop") ||
+      searchtermtext.includes("desktop") ||
+      searchtermtext.includes("gaming PC") ||
+      searchtermtext.includes("2-in-1") ||
+      searchtermtext.includes("all-in-one")
+    ) {
+      category = "Electronics";
+      subcategory = "Computers";
+    } else if (
+      searchtermtext.includes("iPhone") ||
+      searchtermtext.includes("Samsung") ||
+      searchtermtext.includes("OnePlus") ||
+      searchtermtext.includes("Google Pixel") ||
+      searchtermtext.includes("Motorola")
+    ) {
+      category = "Electronics";
+      subcategory = "Smartphones";
+    } else if (
+      searchtermtext.includes("headphones") ||
+      searchtermtext.includes("Bluetooth speakers") ||
+      searchtermtext.includes("soundbars") ||
+      searchtermtext.includes("home theater") ||
+      searchtermtext.includes("receivers")
+    ) {
+      category = "Electronics";
+      subcategory = "Audio & Sound";
+    } else if (
+      searchtermtext.includes("treadmill") ||
+      searchtermtext.includes("stationary bike") ||
+      searchtermtext.includes("dumbbells") ||
+      searchtermtext.includes("resistance bands") ||
+      searchtermtext.includes("yoga mat")
+    ) {
+      category = "Sports & Fitness";
+      subcategory = "Exercise Equipment";
+    } else if (
+      searchtermtext.includes("workout leggings") ||
+      searchtermtext.includes("running shorts") ||
+      searchtermtext.includes("sports bras") ||
+      searchtermtext.includes("tank tops") ||
+      searchtermtext.includes("compression socks")
+    ) {
+      category = "Sports & Fitness";
+      subcategory = "Apparel";
+    } else if (
+      searchtermtext.includes("water bottle") ||
+      searchtermtext.includes("fitness tracker") ||
+      searchtermtext.includes("running shoes") ||
+      searchtermtext.includes("gym bag") ||
+      searchtermtext.includes("jump rope")
+    ) {
+      category = "Sports & Fitness";
+      subcategory = "Gear & Accessories";
+    } else if (
+      searchtermtext.includes("sofa") ||
+      searchtermtext.includes("bed") ||
+      searchtermtext.includes("dining table") ||
+      searchtermtext.includes("bookshelf") ||
+      searchtermtext.includes("office chair")
+    ) {
+      category = "Home & Kitchen";
+      subcategory = "Furniture";
+    } else if (
+      searchtermtext.includes("refrigerator") ||
+      searchtermtext.includes("washing machine") ||
+      searchtermtext.includes("microwave") ||
+      searchtermtext.includes("dishwasher") ||
+      searchtermtext.includes("air purifier")
+    ) {
+      category = "Home & Kitchen";
+      subcategory = "Appliances";
+    } else if (
+      searchtermtext.includes("pots and pans") ||
+      searchtermtext.includes("plates and bowls") ||
+      searchtermtext.includes("cutlery") ||
+      searchtermtext.includes("glasses") ||
+      searchtermtext.includes("coffee makers")
+    ) {
+      category = "Home & Kitchen";
+      subcategory = "Cookware & Dining";
+    } else if (
+      searchtermtext.includes("t-shirt") ||
+      searchtermtext.includes("jeans") ||
+      searchtermtext.includes("dress") ||
+      searchtermtext.includes("jacket") ||
+      searchtermtext.includes("sweatshirt")
+    ) {
+      category = "Fashion";
+      subcategory = "Clothing";
+    } else if (
+      searchtermtext.includes("sneakers") ||
+      searchtermtext.includes("boots") ||
+      searchtermtext.includes("sandals") ||
+      searchtermtext.includes("loafers") ||
+      searchtermtext.includes("slippers")
+    ) {
+      category = "Fashion";
+      subcategory = "Footwear";
+    } else if (
+      searchtermtext.includes("sunglasses") ||
+      searchtermtext.includes("watches") ||
+      searchtermtext.includes("hats") ||
+      searchtermtext.includes("bags") ||
+      searchtermtext.includes("belts")
+    ) {
+      category = "Fashion";
+      subcategory = "Accessories";
+    } else if (
+      searchtermtext.includes("beach") ||
+      searchtermtext.includes("mountain") ||
+      searchtermtext.includes("city") ||
+      searchtermtext.includes("countryside") ||
+      searchtermtext.includes("theme park")
+    ) {
+      category = "Travels";
+      subcategory = "Destinations";
+    } else if (
+      searchtermtext.includes("hotel") ||
+      searchtermtext.includes("hostel") ||
+      searchtermtext.includes("resort") ||
+      searchtermtext.includes("Airbnb") ||
+      searchtermtext.includes("vacation rental")
+    ) {
+      category = "Travels";
+      subcategory = "Accommodation";
+    } else if (
+      searchtermtext.includes("sightseeing") ||
+      searchtermtext.includes("adventure") ||
+      searchtermtext.includes("cultural experience") ||
+      searchtermtext.includes("theme park") ||
+      searchtermtext.includes("water park")
+    ) {
+      category = "Travels";
+      subcategory = "Activities & Attractions";
+    }
+    // Insert search term data into the search_history table
     var sql =
-      "INSERT INTO `search_history`(`session_id`,`session_start`,`search_term`,`user_id`,`tokenized`,`monetize`,`link`,`created_date`,`updated_date` ) VALUES ('" +
+      "INSERT INTO `search_history`(`session_id`,`session_start`,`search_term`,`user_id`,`tokenized`,`monetize`,`category`,`sub_category`,`link`,`created_date`,`updated_date` ) VALUES ('" +
       session_id +
       "','" +
       dateTimeVaues +
@@ -113,26 +316,30 @@ const getSearchData = function (req, res) {
       "','" +
       monetize +
       "','" +
+      category +
+      "','" +
+      subcategory +
+      "','" +
       urlLink +
       "','" +
       dateTimeVaues +
       "','" +
       dateTimeVaues +
       "')";
+    console.log(sql);
     var query = db.query(sql, function (err, result) {
       message = "Succesfully! Your account has been created.";
-      //res.render('signup.ejs',{message: message});
-      //console.log(encryptDecrypt.decrypt(encryptSearchValue));
-      //console.log(sql);
-
-      res.render("../views/pages/search", { message: message });
+      urlLink =
+        req.headers.host + "" + req.url + "?searchtermtext=" + searchtermtext;
+      res.render("../views/pages/search", {
+        message: message,
+      });
     });
   } else {
-    //console.log("this out of content.");
-    res.render("../views/pages/search");
+    res.redirect("/");
   }
-  res.redirect("/");
 };
+
 // For View
 //update profile data
 const updateProfileData = function (req, res) {
@@ -231,6 +438,7 @@ const updateProfileData = function (req, res) {
 // end the profile data
 const getSearchHistory = (req, res) => {
   var wallet_id = req.session.metaUser;
+  message = "";
   var sql =
     "SELECT * FROM `search_history` WHERE user_id='" +
     wallet_id +
@@ -243,20 +451,29 @@ const getSearchHistory = (req, res) => {
     var arrayData = [];
     let sr = 1;
     let arrayValues = results.map((arrayData) => {
-      var starttime = new Date(arrayData.session_start.toUTCString());
+      var starttime = new Date(arrayData.session_start);
+      var hours = starttime.getHours();
+      var minutes = ("0" + starttime.getMinutes()).slice(-2);
+      var seconds = ("0" + starttime.getSeconds()).slice(-2);
+      var searchtime = hours + ":" + minutes + ":" + seconds;
+      //const myDate = new Date("11 May 2021 18:30:01 UTC");
       return {
         srNo: sr++,
+        id: arrayData.id,
         session_id: arrayData.session_id,
         search_term: encryptDecrypt.decrypt(arrayData.search_term),
-        session_start: starttime,
+        session_start: searchtime,
         link: encryptDecrypt.decrypt(arrayData.link),
         tokenized: arrayData.tokenized,
         monetize: arrayData.monetize,
+        category: arrayData.category,
         searchDate: arrayData.created_date,
       };
     });
     //console.log(arrayValues);
-    res.render("../views/pages/search-data", { data: arrayValues });
+    res.render("../views/pages/search-data", {
+      data: arrayValues,
+    });
   });
 };
 // end the profile data
@@ -439,33 +656,16 @@ const profile = (req, res) => {
     //console.log(arrayValues);
     //var message = "Succesfully! updated your details.";
     //console.log(message);
-    res.render("../views/pages/user-profile", { data: arrayValues });
+    res.render("../views/pages/user-profile", {
+      data: arrayValues,
+      countryList: countryList,
+    });
     //});
   });
 
   // });
 };
 const countryStateCity = (req, res) => {
-  //  let countryList = await countryModels.countryList();
-  //   //console.log(countryList);
-  //   for(var i = 0; i< countryList.length; i++)
-  //   {
-  //      // countryList[i].name
-  //       var sql = "INSERT INTO `countries`(`name`,`iso_code`,`phonecode`,`currency`) VALUES ('" +countryList[i].name + "','" +countryList[i].isoCode + "','" + countryList[i].phonecode + "','" +countryList[i].currency + "')";
-  //      var query = await db.query(sql)
-  //     //
-
-  //   }
-  // res.render("../views/pages/user-profile", { data: countryList });
-  //console.log(countryArray);
-  //   let stateList=countryModels.stateList();
-  //  //console.log(stateList);
-  //    for(var i = 0; i< stateList.length; i++)
-  //    {
-  //       var sql = "INSERT INTO `all_states`(`name`,`iso_code`,`country_code`) VALUES ('" +stateList[i].name+ "','" + stateList[i].isoCode+ "','" +stateList[i].countryCode+"')";
-  //       var query =  db.query(sql);
-
-  //    }
   let cityList = countryModels.cityList();
   //console.log(cityList);
   var sql = `INSERT INTO all_cities (name, country_code, state_code) VALUES ?`;
@@ -484,6 +684,54 @@ const countryStateCity = (req, res) => {
   });
   //res.render("../views/pages/user-profile", { data: countryList });
 };
+const tokenizedMonetize = function (req, res) {
+  message = "";
+  if (req.method == "POST") {
+    var post = req.body;
+    //console.log(req.body);
+    var wallet_id = req.session.metaUser;
+    //console.log(wallet_id);
+    if (post.tokenizeEnabled == true) {
+      var tokenized = "Y";
+    } else {
+      var tokenized = "N";
+    }
+    if (post.actionbutton == "tokenize") {
+      var sql = `update user_profile set tokenized='${tokenized}' WHERE wallet_id='${wallet_id}'`;
+    } else {
+      var sql = `update user_profile set monetize='${tokenized}' WHERE wallet_id='${wallet_id}'`;
+    }
+    var query = db.query(sql, function (err, result) {
+      if (err) throw err;
+      //console.log(result.affectedRows + " record(s) updated");
+    });
+    var sqlQuery =
+      "SELECT wallet_id,tokenized,monetize FROM `user_profile` WHERE `wallet_id`='" +
+      wallet_id +
+      "'";
+    db.query(sqlQuery, function (err, results) {
+      //const results = result.length || 0;
+      if (results.length > 0) {
+        req.session.userLanguage = results[0].language;
+        req.session.tokenized = results[0].tokenized;
+        req.session.monetize = results[0].monetize;
+        req.session.save();
+      }
+    });
+  }
+};
+const deleteSearchTerm = function (req, res) {
+  var id = req.params.id;
+  console.log("mukesh");
+  message = "";
+  var sql = "DELETE FROM search_history WHERE id = ?";
+  db.query(sql, [id], function (err, data) {
+    if (err) throw err;
+    console.log(data.affectedRows + " record(s) updated");
+    message = "Succesfully deleted your record..";
+  });
+  res.redirect("/searchHistory");
+};
 module.exports = {
   searchIndex,
   login,
@@ -495,4 +743,6 @@ module.exports = {
   countryStateCity,
   updateProfileData,
   getProfileDetails,
+  tokenizedMonetize,
+  deleteSearchTerm,
 };
