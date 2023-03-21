@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -17,7 +16,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
     crossorigin="anonymous"></script>
 </head>
-
 <body>
   <!--Main Navigation-->
   <header>
@@ -117,7 +115,7 @@
 					alt="" loading="lazy" />
 				</a>
 				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-				<li><a href="/dashboard" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+				<li><a href="/" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
 					<i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Activity</span>
 				  </a></li>
 				  <li><a class="dropdown-item" href="/profileDetails"><i class="fas fa-user-alt me-3"></i>My profile</a></li>
@@ -132,6 +130,38 @@
 	  </nav>
     <!-- Navbar -->
   </header>
+   <script>
+  const tokenizeCheckbox = document.getElementById('tokenize');
+tokenizeCheckbox.addEventListener('change', () => {
+  const preference = {
+    tokenizeEnabled: tokenizeCheckbox.checked,
+	actionbutton: "tokenize"
+  };
+  fetch('/tokenizedMonetize', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(preference)
+  });
+});
+const tokenizeCheckboxMonetize = document.getElementById('monetizedcheckbox');
+tokenizeCheckboxMonetize.addEventListener('change', () => {
+  const preference = {
+    tokenizeEnabled: tokenizeCheckboxMonetize.checked,
+	actionbutton: "monetized"
+  };
+  fetch('/tokenizedMonetize', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(preference)
+  });
+});
+
+
+  </script>
   <!--Main Navigation-->
 
   

@@ -1,58 +1,82 @@
-<%- include('../partials/header-front'); %>
+
+ <%- include('../partials/header-front'); %>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
 <link rel="stylesheet" href="/node_modules/cookie-consent-js/src/cookie-consent.css"/>
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<script src="/node_modules/cookie-consent-js/src/cookie-consent.js"></script>
-<style>
-  body {
-    font-family: Arial, sans-serif;
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+    <style>
+ 
+#cookiePopup {
+  background-color: #ffffff;
+  position: absolute;
+  font-size: 14px;
+  width: 70vw;
+  max-width: 42.85em;
+  box-shadow: 0 0 2em rgba(5, 0, 31, 0.15);
+  font-family: "Poppins", sans-serif;
+  text-align: justify;
+  line-height: 1.8em;
+  padding: 0.2em 1.4em;
+  border-radius: 6px;
+  transition: all 0.5s ease-in;
+}
+#cookiePopup img {
+  display: block;
+  width: 3.75em;
+  transform: translateZ(0);
+  position: relative;
+  margin: auto;
+}
+#cookiePopup p {
+  text-align: left;
+ 
+}
+#cookiePopup button {
+ 
+  border: none;
+  color: #ffffff;
+  font-size: 1.2em;
+  display: block;
+  position: relative;
+  margin: auto;
+  border-radius: 4px;
+}
+#cookiePopup a {
+  color: #6859fe;
+}
+.hide {
+  visibility: hidden;
+  bottom: 0;
+  right: 2em;
+}
+.show {
+  visibility: visible;
+  bottom: 2em;
+  right: 2em;
+}
+@media only screen and (max-width: 37.5em) {
+  #cookiePopup {
+    width: 100%;
   }
-  .search-container {
-    padding-top: 100px;
+  .hide {
+    bottom: 2em;
+    right: 0;
   }
-  .search-form {
-    text-align: center;
+  .show {
+    right: 0;
+    bottom: 0;
   }
-  .form-control {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  .btn {
-    height: 100%;
-  }
-  .result-item {
-    margin-bottom: 20px;
-  }
-  .result-item-link {
-    font-size: 14px;
-    color: #006621;
-  }
-  .result-item-link a {
-    text-decoration: none;
-  }
-  .result-item-link .dots {
-    font-size: 16px;
-    vertical-align: middle;
-  }
-  .result-item h3 {
-    font-size: 18px;
-    margin-bottom: 2px;
-  }
-  .result-item h3 a {
-    color: #1a0dab;
-    text-decoration: none;
-  }
-  .result-item p {
-    font-size: 14px;
-    color: #545454;
-    line-height: 1.4;
-  }
-</style>
-</head>
-<div class="container-fluid">
+}
+    </style>
+  </head>
+  <body>
+  <div class="container-fluid">
   <div class="row search-container">
-    <div class="col-sm"></div>
+    <div class="col-sm">
+    
+    </div>
     <div class="col-sm">
       <form action="/searchTerm" method="POST" name="searchform" class="search-form">
         <p align="center"> <img src="/../public/img/Web3Search.png" height="60" alt="Web3Search" loading="lazy" /></p>
@@ -276,19 +300,79 @@
     <div style="clear:both; padding-top: 15%;"></div>
     <% } %>
   </div>
-  <a href="javascript:cookieConsent.reset()">Cookie settings</a>
 </div>
-<script>
-  const cookieConsent = new CookieConsent({
-    contentUrl: "/node_modules/cookie-consent-js/cookie-consent-content", // location of the language files
-    privacyPolicyUrl: "/privacy-policy.html"
-})
-//cookieSettings.showDialog()
-var cookieConsent = new CookieConsent({
-    autoShowModal: false,
-    privacyPolicyUrl: "privacy-policy.html",
-    contentUrl: "./cookie-consent-content"
-})
+<!-- consent form pop up-->
+    <div id="cookiePopup" class="hide">
+      <div class="cookie-consent-banner">
+  <div class="cookie-consent-banner__inner">
+    <div class="cookie-consent-banner__copy">
+      <div class="cookie-consent-banner__header"><strong>THIS WEBSITE USES</strong></div>
+      <div class="cookie-consent-banner__description">We use cookies to personalise content and ads, to provide social media features and to analyse our traffic. You consent to our cookies if you continue to use our website.</div>
+    </div>
+
+    <form class="cookie-consent-banner__actions">
+     
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+  <label class="form-check-label" for="flexRadioDefault1"> I do not allow any personal data regarding my visit to be recorded (some services may not be available as a result)</label>
+</div>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" name="consent" value="yes">
+        <labelclass="form-check-label">I allow this site to use cookies to retain data on my use of this site (normal site performance)</label>
+        
+      </div>
+
+     <div class="form-check">
+        <input  class="form-check-input" type="radio" id="option3" name="consent" value="tokenize">
+        <label class="form-check-label">I allow the site to tokenize data on my visit (normal site performance, with control of your data for further sale as you choose)</label>
+        
+      </div>
+
+   
+     <p align="center">
+     <button id="acceptCookie"  class="btn btn-primary center" type="submit">Accepted</button></p>
+     
+    
+    </form>
+  </div>
+</div>
+      
+    </div>
+    <%- include('../partials/footer'); %>
+    <!-- end consent form pop up-->
+    <script>
+    let popUp = document.getElementById("cookiePopup");
+//When user clicks the accept button
+document.getElementById("acceptCookie").addEventListener("click", () => {
+  //Create date object
+  let d = new Date();
+  //Increment the current time by 1 minute (cookie will expire after 1 minute)
+  d.setMinutes(2 + d.getMinutes());
+  //Create Cookie withname = myCookieName, value = thisIsMyCookie and expiry time=1 minute
+  document.cookie = "myCookieName=thisIsMyCookie; expires = " + d + ";";
+  //Hide the popup
+  popUp.classList.add("hide");
+  popUp.classList.remove("show");
+});
+//Check if cookie is already present
+const checkCookie = () => {
+  //Read the cookie and split on "="
+  let input = document.cookie.split("=");
+  //Check for our cookie
+  if (input[0] == "myCookieName") {
+    //Hide the popup
+    popUp.classList.add("hide");
+    popUp.classList.remove("show");
+  } else {
+    //Show the popup
+    popUp.classList.add("show");
+    popUp.classList.remove("hide");
+  }
+};
+//Check if cookie exists when page loads
+window.onload = () => {
+  setTimeout(() => {
+    checkCookie();
+  }, 2000);
+};
 </script>
-<%- include('../partials/footer'); %>
- %>

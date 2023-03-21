@@ -8,6 +8,79 @@
 </style>
 <main style="margin-top: 58px">
   <div class="container pt-4">
+   <!--Section: Minimal statistics cards-->
+    <section>
+     
+      <div class="row">
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between px-md-1">
+                <div>
+                  <h3 class="text-danger" id="totalSearchTerms">Loading..</h3>
+                  <p class="mb-0">Total Search Terms</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="fas fa-rocket text-danger fa-3x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between px-md-1">
+                <div>
+                  <h3 class="text-success" id="totalTokenized">Loading..</h3>
+                  <p class="mb-0">Total Tokenized</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="far fa-user text-success fa-3x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between px-md-1">
+                <div>
+                  <h3 class="text-warning" id="totalMonetized">64.89 %</h3>
+                  <p class="mb-0">Total Monetized</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="fas fa-chart-pie text-warning fa-3x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between px-md-1">
+                <div>
+                  <h3 class="text-info" id="totaltokenvalue">loading..</h3>
+                  <p class="mb-0">Total Tokenvalue</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="far fa-life-ring text-info fa-3x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    </section>
+    
+    
+    
+    
+    
+    
     <section class="mb-4">
       <div class="card">
         <div class="card-header text-center py-3">
@@ -31,11 +104,12 @@
             <table class="table table-hover text-nowrap" id="example">
               <thead>
                 <tr>
-                  <th scope="col">Search Term</th>
-                  <th scope="col">Session start</th>
+                  <th scope="col">Search</th>
+                  <th scope="col">Time</th>
                   <th scope="col">Tokenize</th>
                   <th scope="col">Monetize</th>
-                  <th scope="col">Category</th>
+                  <th scope="col"> Search Category</th>
+                  <th scope="col">Token Value</th>
                   <th scope="col">Delete</th>
                 </tr>
               </thead>
@@ -65,7 +139,8 @@
                           <label class="form-check-label" for="monetizeToggle<%= item.id %>"></label>
                         </div>
                       </td>
-                       <td><%= item.category %></td>                        
+                       <td><%= item.category %></td>  
+                        <td><%= item.tokenvalue %></td>                      
                       <td><a href="/deleteSearchTerm/<%= item.id %>"><button type="button" class="btn btn-danger" onclick="deleteSearchTerm('<%= item.id %>')">Delete</button></a>
                       </td>
                     </tr>
@@ -77,6 +152,19 @@
                 <% } %>  
               </tbody>
             </table>
+            <script>
+              // Get the data from the server and count the number of tokenized items
+              fetch('/searchHistory')
+                .then(response => response.json())
+                .then(data => {
+                  const tokenizedCount = data.filter(item => item.tokenized === 'Y').length;
+            
+                  // Update the text in the card to show the total number of tokenized items
+                  const totalTokenizedElement = document.getElementById('totalTokenized');
+                  totalTokenizedElement.innerText = tokenizedCount.toString();
+                })
+                .catch(error => console.error(error));
+            </script>
           </div>
         </div>
       </div>
@@ -97,6 +185,38 @@ function toggleMonetize(switchButton, id) {
   const value = switchButton.checked ? 'Y' : 'N';
   updateSearchTerm(id, { monetize: value });
 }
+// update tokenize and monetize status
+ <script>
+  const tokenizeCheckbox = document.getElementById('tokenize');
+  tokenizeCheckbox.addEventListener('change', () => {
+  const preference = {
+    tokenizeEnabled: tokenizeCheckbox.checked,
+	  actionbutton: "tokenize"
+  };
+  fetch('/tokenizedMonetize', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(preference)
+  });
+});
+const tokenizeCheckboxMonetize = document.getElementById('monetizedcheckbox');
+tokenizeCheckboxMonetize.addEventListener('change', () => {
+  const preference = {
+    tokenizeEnabled: tokenizeCheckboxMonetize.checked,
+	actionbutton: "monetized"
+  };
+  fetch('/tokenizedMonetize', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(preference)
+  });
+});
+
+  </script>
 
 function updateSearchTerm(id, values) {
   fetch(`/api/searchHistory/${id}`, {
@@ -124,6 +244,44 @@ function deleteSearchTerm(id) {
   </script>
 
 
+</script>
+
+<!-- Below code for counter  -->
+
+<script>
+  window.onload = function() {
+    const table = document.getElementById('example');
+    const rows = table.getElementsByTagName('tr');
+    let tokenizedCount = 0;
+    let monetizedCount = 0;
+    let searchTermsCount = rows.length - 1; //subtract the header row
+
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const tokenizeToggle = row.querySelector('input[id^="tokenizeToggle"]');
+      const monetizeToggle = row.querySelector('input[id^="monetizeToggle"]');
+
+      if (tokenizeToggle && tokenizeToggle.checked) {
+        tokenizedCount++;
+      }
+
+      if (monetizeToggle && monetizeToggle.checked) {
+        monetizedCount++;
+      }
+    }
+
+    const totalTokenizedElement = document.getElementById('totalTokenized');
+    totalTokenizedElement.innerText = tokenizedCount.toString();
+
+    const totalMonetizedElement = document.getElementById('totalMonetized');
+    totalMonetizedElement.innerText = monetizedCount.toString();
+
+    const totalSearchTermsElement = document.getElementById('totalSearchTerms');
+    totalSearchTermsElement.innerText = searchTermsCount.toString();
+  }
+</script>
+
+<!-- End counter card -->
 
 </div>
   <%- include('../partials/footer'); %>

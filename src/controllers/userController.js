@@ -301,9 +301,23 @@ const getSearchData = function (req, res) {
       category = "Travels";
       subcategory = "Activities & Attractions";
     }
+    //tokenize values code
+    var tokenValues = {
+      Books: 0.25,
+      "Beauty & Personal Care": 0.5,
+      Electronics: 0.9,
+      "Sports & Fitness": 0.9,
+      "Home & Kitchen": 0.5,
+      Fashion: 0.9,
+      Travels: 0.9,
+    };
+
+    var categoryTokenValue = tokenValues[category];
+    var tokenizedValue = monetize === "Y" ? categoryTokenValue : 0;
+    //end the tokenize value code
     // Insert search term data into the search_history table
     var sql =
-      "INSERT INTO `search_history`(`session_id`,`session_start`,`search_term`,`user_id`,`tokenized`,`monetize`,`category`,`sub_category`,`link`,`created_date`,`updated_date` ) VALUES ('" +
+      "INSERT INTO `search_history`(`session_id`,`session_start`,`search_term`,`user_id`,`tokenized`,`monetize`,`category`,`sub_category`,`tokenvalue`,`link`,`created_date`,`updated_date` ) VALUES ('" +
       session_id +
       "','" +
       dateTimeVaues +
@@ -320,13 +334,15 @@ const getSearchData = function (req, res) {
       "','" +
       subcategory +
       "','" +
+      tokenizedValue +
+      "','" +
       urlLink +
       "','" +
       dateTimeVaues +
       "','" +
       dateTimeVaues +
       "')";
-    console.log(sql);
+    //console.log(sql);
     var query = db.query(sql, function (err, result) {
       message = "Succesfully! Your account has been created.";
       urlLink =
@@ -470,6 +486,7 @@ const getSearchHistory = (req, res) => {
         tokenized: arrayData.tokenized,
         monetize: arrayData.monetize,
         category: arrayData.category,
+        tokenvalue: arrayData.tokenvalue,
         searchDate: arrayData.created_date,
       };
     });
@@ -723,6 +740,7 @@ const tokenizedMonetize = function (req, res) {
       }
     });
   }
+  res.end();
 };
 const deleteSearchTerm = function (req, res) {
   var id = req.params.id;
