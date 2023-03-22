@@ -41,7 +41,12 @@ const login = (req, res) => {
       req.session.save();
     } else {
       var language = "english";
-      var tokenized = "N";
+      if (req.cookies.tokenizValue) {
+        var tokenized = "Y";
+      } else {
+        var tokenized = "N";
+      }
+
       var monetize = "N";
       var sql =
         "INSERT INTO `user_profile`(`wallet_id`,`language`,`tokenized`,`monetize`) VALUES ('" +
@@ -454,6 +459,8 @@ const updateProfileData = function (req, res) {
 // end the profile data
 const getSearchHistory = (req, res) => {
   var wallet_id = req.session.metaUser;
+  //console.log(req.cookies.tokenizValue);
+  // console.log("mukeshddd");
   message = "";
   var sql =
     "SELECT * FROM `search_history` WHERE user_id='" +
@@ -470,10 +477,24 @@ const getSearchHistory = (req, res) => {
     //console.log(searchCount);
     let arrayValues = results.map((arrayData) => {
       var starttime = new Date(arrayData.session_start);
+      var date = starttime.getDate();
+      var month = starttime.getMonth() + 1; // take care of the month's number here ⚠️
+      var year = starttime.getFullYear();
       var hours = starttime.getHours();
       var minutes = ("0" + starttime.getMinutes()).slice(-2);
       var seconds = ("0" + starttime.getSeconds()).slice(-2);
-      var searchtime = hours + ":" + minutes + ":" + seconds;
+      var searchtime =
+        date +
+        "-" +
+        month +
+        "-" +
+        year +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds;
       //const myDate = new Date("11 May 2021 18:30:01 UTC");
 
       return {
@@ -742,6 +763,43 @@ const tokenizedMonetize = function (req, res) {
   }
   res.end();
 };
+const tokenizedMonetizeSingle = function (req, res) {
+  message = "";
+  if (req.method == "POST") {
+    var post = req.body;
+    console.log(req.body);
+    var wallet_id = req.session.metaUser;
+    //console.log(wallet_id);
+    if (post.tokenizeEnabled == true) {
+      var tokenized = "Y";
+    } else {
+      var tokenized = "N";
+    }
+    if (post.actionbutton == "tokenize") {
+      var sql = `update user_profile set tokenized='${tokenized}' WHERE wallet_id='${wallet_id}'`;
+    } else {
+      var sql = `update user_profile set monetize='${tokenized}' WHERE wallet_id='${wallet_id}'`;
+    }
+    var query = db.query(sql, function (err, result) {
+      if (err) throw err;
+      //console.log(result.affectedRows + " record(s) updated");
+    });
+    var sqlQuery =
+      "SELECT wallet_id,tokenized,monetize FROM `user_profile` WHERE `wallet_id`='" +
+      wallet_id +
+      "'";
+    db.query(sqlQuery, function (err, results) {
+      //const results = result.length || 0;
+      if (results.length > 0) {
+        req.session.userLanguage = results[0].language;
+        req.session.tokenized = results[0].tokenized;
+        req.session.monetize = results[0].monetize;
+        req.session.save();
+      }
+    });
+  }
+  res.end();
+};
 const deleteSearchTerm = function (req, res) {
   var id = req.params.id;
   //console.log("mukesh");
@@ -755,7 +813,18 @@ const deleteSearchTerm = function (req, res) {
   res.redirect("/searchHistory");
 };
 const setCookies = function (req, res) {
-  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+  var post = req.body;
+  console.log(req.body);
+  var tokenizValue = post.tokenizeEnabled;
+  var cookieConsent = req.session.id;
+  if (tokenizValue == "Y") {
+    res.cookie("cookieConsent", cookieConsent, { maxAge: 2500000 });
+    res.cookie("tokenizValue", tokenizValue, { maxAge: 2500000 });
+  } else {
+    res.cookie("cookieConsent", cookieConsent, { maxAge: 2500000 });
+  }
+  //consosle.log(req.cookies.tokenizValue);
+  res.end();
 };
 module.exports = {
   searchIndex,
@@ -771,6 +840,7 @@ module.exports = {
   tokenizedMonetize,
   deleteSearchTerm,
   setCookies,
+  tokenizedMonetizeSingle,
 };
 // aoeorofsleDala,onsent);
 //  =getPrtfneeretai.ss

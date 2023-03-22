@@ -21,8 +21,11 @@ router.post('/getCityByCountry', countryStateController.getCityList);
 router.post('/updateProfileData', UserController.updateProfileData);
 router.post('/tokenizedMonetize', UserController.tokenizedMonetize);
 router.get('/tokenizedMonetize', UserController.tokenizedMonetize);
+router.post('/tokenizedMonetizeSingle', UserController.tokenizedMonetizeSingle);
+router.get('/tokenizedMonetizeSingle', UserController.tokenizedMonetizeSingle);
 router.get('/profileDetails', UserController.getProfileDetails);
 router.get('/deleteSearchTerm/(:id)', UserController.deleteSearchTerm);
 router.post('/setCookies', UserController.setCookies);
+
 
 module.exports=router;

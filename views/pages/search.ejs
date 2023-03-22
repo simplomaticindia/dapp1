@@ -310,27 +310,27 @@
       <div class="cookie-consent-banner__description">We use cookies to personalise content and ads, to provide social media features and to analyse our traffic. You consent to our cookies if you continue to use our website.</div>
     </div>
 
-    <form class="cookie-consent-banner__actions">
+    <form fclass="cookie-consent-banner__actions">
      
 <div class="form-check">
-  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+  <input class="form-check-input" type="radio" name="consent_name" id="optionvalue" value="not allow"/>
   <label class="form-check-label" for="flexRadioDefault1"> I do not allow any personal data regarding my visit to be recorded (some services may not be available as a result)</label>
 </div>
       <div class="form-check">
-        <input type="radio" class="form-check-input" name="consent" value="yes">
+        <input type="radio" class="form-check-input"  id="optionvalue2" name="consent_name" value="allow"/>
         <labelclass="form-check-label">I allow this site to use cookies to retain data on my use of this site (normal site performance)</label>
         
       </div>
 
      <div class="form-check">
-        <input  class="form-check-input" type="radio" id="option3" name="consent" value="tokenize">
+        <input  class="form-check-input" type="radio" id="optionvalue3" name="consent_name" value="Y"/>
         <label class="form-check-label">I allow the site to tokenize data on my visit (normal site performance, with control of your data for further sale as you choose)</label>
         
       </div>
 
    
-     <p align="center">
-     <button id="acceptCookie"  class="btn btn-primary center" type="submit">Accepted</button></p>
+     <p align="center"><br>
+     <button id="acceptCookie"  class="btn btn-primary center" type="submit">Accept</button></p>
      
     
     </form>
@@ -343,13 +343,28 @@
     <script>
     let popUp = document.getElementById("cookiePopup");
 //When user clicks the accept button
-document.getElementById("acceptCookie").addEventListener("click", () => {
+   document.getElementById("acceptCookie").addEventListener("click", () => {
   //Create date object
   let d = new Date();
   //Increment the current time by 1 minute (cookie will expire after 1 minute)
   d.setMinutes(2 + d.getMinutes());
   //Create Cookie withname = myCookieName, value = thisIsMyCookie and expiry time=1 minute
   document.cookie = "myCookieName=thisIsMyCookie; expires = " + d + ";";
+  let tokenizeCheckbox=document.getElementById("optionvalue");
+  let tokenizeCheckbox2=document.getElementById("optionvalue2");
+  let tokenizeCheckbox3=document.getElementById("optionvalue3");
+  //store cookies value
+  const preference = {
+    tokenizeEnabled: tokenizeCheckbox3.value,
+	  actionbutton: "tokenize"
+  };
+  fetch('/setCookies', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(preference)
+  });
   //Hide the popup
   popUp.classList.add("hide");
   popUp.classList.remove("show");

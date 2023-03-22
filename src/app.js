@@ -53,6 +53,7 @@ app.post("/getstateByCountry", router);
 app.post("/getCityByCountry", router);
 app.post("/updateProfileData", router);
 app.post("/tokenizedMonetize", middlewareFunction, router);
+app.post("/tokenizedMonetizeSingle", middlewareFunction, router);
 app.get("/ProfileDetails", middlewareFunction, router);
 app.get("/deleteSearchTerm/(:id)", middlewareFunction, router);
 app.post("/setCookies", router);
