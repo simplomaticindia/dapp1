@@ -459,8 +459,6 @@ const updateProfileData = function (req, res) {
 // end the profile data
 const getSearchHistory = (req, res) => {
   var wallet_id = req.session.metaUser;
-  //console.log(req.cookies.tokenizValue);
-  // console.log("mukeshddd");
   message = "";
   var sql =
     "SELECT * FROM `search_history` WHERE user_id='" +
@@ -477,24 +475,10 @@ const getSearchHistory = (req, res) => {
     //console.log(searchCount);
     let arrayValues = results.map((arrayData) => {
       var starttime = new Date(arrayData.session_start);
-      var date = starttime.getDate();
-      var month = starttime.getMonth() + 1; // take care of the month's number here ⚠️
-      var year = starttime.getFullYear();
       var hours = starttime.getHours();
       var minutes = ("0" + starttime.getMinutes()).slice(-2);
       var seconds = ("0" + starttime.getSeconds()).slice(-2);
-      var searchtime =
-        date +
-        "-" +
-        month +
-        "-" +
-        year +
-        " " +
-        hours +
-        ":" +
-        minutes +
-        ":" +
-        seconds;
+      var searchtime = hours + ":" + minutes + ":" + seconds;
       //const myDate = new Date("11 May 2021 18:30:01 UTC");
 
       return {
@@ -765,6 +749,7 @@ const tokenizedMonetize = function (req, res) {
 };
 const tokenizedMonetizeSingle = function (req, res) {
   message = "";
+  console.log(req.body);
   if (req.method == "POST") {
     var post = req.body;
     console.log(req.body);
@@ -1001,6 +986,238 @@ module.exports = {
 //   deleteSearchTerm,
 //   setCookies,
 // };  res.cookie("cookieConsent", cookieConsent, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+//t, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+//t, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+//t, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+//t, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+//t, { moxAn : 50000 });here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+//here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+//here, such as disabling certain features of the site
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
+//    res.redirect("/"); // redirect to the homepage or any other desired page
+// ofileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };  res.cookie("cookieConsent", cookieConsent, { maxAge: 50000 });
+//   }
+//   res.redirect("/");
+// };
+// module.exports = {
+//   searchIndex,
+//   login,
+//   logout,
+//   getSearchData,
+//   getSearchHistory,
+//   dashboard,
+//   profile,
+//   countryStateCity,
+//   updateProfileData,
+//   getProfileDetails,
+//   tokenizedMonetize,
+//   deleteSearchTerm,
+//   setCookies,
+// };
 //    res.redirect("/"); // redirect to the homepage or any other desired page
 // ofileData,
 //   getProfileDetails,

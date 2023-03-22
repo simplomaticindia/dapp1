@@ -167,10 +167,7 @@
 </main>
   <script>
  
-
  
-
-
 function deleteSearchTerm(id) {
   if (confirm('Are you sure you want to delete this record?')) {
     fetch(`/api/searchHistory/${id}`, {
@@ -182,39 +179,29 @@ function deleteSearchTerm(id) {
     .catch(error => console.error(error));
   }
 }
-
   
-
 <!-- Below code for counter  -->
-
-
   window.onload = function() {
     const table = document.getElementById('example');
     const rows = table.getElementsByTagName('tr');
     let tokenizedCount = 0;
     let monetizedCount = 0;
     let searchTermsCount = rows.length - 1; //subtract the header row
-
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
       const tokenizeToggle = row.querySelector('input[id^="tokenizeToggle"]');
       const monetizeToggle = row.querySelector('input[id^="monetizeToggle"]');
-
       if (tokenizeToggle && tokenizeToggle.checked) {
         tokenizedCount++;
       }
-
       if (monetizeToggle && monetizeToggle.checked) {
         monetizedCount++;
       }
     }
-
     const totalTokenizedElement = document.getElementById('totalTokenized');
     totalTokenizedElement.innerText = tokenizedCount.toString();
-
     const totalMonetizedElement = document.getElementById('totalMonetized');
     totalMonetizedElement.innerText = monetizedCount.toString();
-
     const totalSearchTermsElement = document.getElementById('totalSearchTerms');
     totalSearchTermsElement.innerText = searchTermsCount.toString();
   }
