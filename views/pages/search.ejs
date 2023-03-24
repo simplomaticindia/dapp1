@@ -43,6 +43,10 @@
   margin: auto;
   border-radius: 4px;
 }
+.result-item h3 
+{
+   font-size:16px;
+}
 #cookiePopup a {
   color: #6859fe;
 }
@@ -90,12 +94,22 @@
       <!-- Include your result-item divs here -->
       <main>
       <div class="main-container">
+      
+     
+      
         <div class="search-delay">
           About 17,000,000 results (0.35 seconds)
         </div>
         <div class="result-item">
+        <div class="result-item-link">
+         <p><%= searchtermtext %></p>
+          <a href="#"><%= urlLink%></a>
+            </span></a>
+
+          </div>
           <div class="result-item-link">
-            <a href="#">https://www.codewithwebthrough.com</a>
+        
+            <a href="#">https://www.codewithwebthrough.com</a><br>
             <a href="#"><span class="material-icons-outlined dots">
                 more_vert
             </span></a>

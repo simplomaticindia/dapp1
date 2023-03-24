@@ -32,8 +32,8 @@ const login = (req, res) => {
     metaMaskId +
     "'";
   db.query(sqlQuery, function (err, results) {
-    //const results = result.length || 0;
-    if (results.length > 0) {
+    //const results = result?.length || 0;
+    if (!!results.length) {
       req.session.metaUser = results[0].wallet_id;
       req.session.userLanguage = results[0].language;
       req.session.tokenized = results[0].tokenized;
@@ -354,6 +354,8 @@ const getSearchData = function (req, res) {
         req.headers.host + "" + req.url + "?searchtermtext=" + searchtermtext;
       res.render("../views/pages/search", {
         message: message,
+        searchtermtext: searchtermtext,
+        urlLink: urlLink,
       });
     });
   } else {
@@ -476,9 +478,23 @@ const getSearchHistory = (req, res) => {
     let arrayValues = results.map((arrayData) => {
       var starttime = new Date(arrayData.session_start);
       var hours = starttime.getHours();
+      var getdate = starttime.getDate();
+      var getMonth = starttime.getMonth();
+      var getFullYear = starttime.getFullYear();
       var minutes = ("0" + starttime.getMinutes()).slice(-2);
       var seconds = ("0" + starttime.getSeconds()).slice(-2);
-      var searchtime = hours + ":" + minutes + ":" + seconds;
+      var searchtime =
+        getdate +
+        "-" +
+        getMonth +
+        "-" +
+        getFullYear +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds;
       //const myDate = new Date("11 May 2021 18:30:01 UTC");
 
       return {
@@ -748,40 +764,60 @@ const tokenizedMonetize = function (req, res) {
   res.end();
 };
 const tokenizedMonetizeSingle = function (req, res) {
-  message = "";
-  console.log(req.body);
+  //message = "";
+  //console.log(req.body);
+  //console.log(req.body);
   if (req.method == "POST") {
     var post = req.body;
     console.log(req.body);
-    var wallet_id = req.session.metaUser;
-    //console.log(wallet_id);
-    if (post.tokenizeEnabled == true) {
-      var tokenized = "Y";
+    var tokenizeMonetized = post.tokenizeEnabled;
+    var arrayTokenize = tokenizeMonetized.split("_");
+    var tokenized = arrayTokenize[0];
+    var rowId = arrayTokenize[1];
+    if (tokenized == "Y") {
+      var tokenizedvalue = "N";
     } else {
-      var tokenized = "N";
+      var tokenizedvalue = "Y";
     }
-    if (post.actionbutton == "tokenize") {
-      var sql = `update user_profile set tokenized='${tokenized}' WHERE wallet_id='${wallet_id}'`;
+    if (post.actionbutton == "tokenized") {
+      var sql = `update search_history set tokenized='${tokenizedvalue}' WHERE id='${rowId}'`;
     } else {
-      var sql = `update user_profile set monetize='${tokenized}' WHERE wallet_id='${wallet_id}'`;
+      var sql = `update search_history set monetize='${tokenizedvalue}' WHERE id='${rowId}'`;
     }
+    // var sql = `update user_profile set monetize='${tokenized}' WHERE id='${rowId}'`;
+    console.log(sql);
     var query = db.query(sql, function (err, result) {
       if (err) throw err;
       //console.log(result.affectedRows + " record(s) updated");
     });
-    var sqlQuery =
-      "SELECT wallet_id,tokenized,monetize FROM `user_profile` WHERE `wallet_id`='" +
-      wallet_id +
-      "'";
-    db.query(sqlQuery, function (err, results) {
-      //const results = result.length || 0;
-      if (results.length > 0) {
-        req.session.userLanguage = results[0].language;
-        req.session.tokenized = results[0].tokenized;
-        req.session.monetize = results[0].monetize;
-        req.session.save();
-      }
-    });
+    //console.log(wallet_id);
+    // if (post.tokenizeEnabled == true) {
+    //   var tokenized = "Y";
+    // } else {
+    //   var tokenized = "N";
+    // }
+    // if (post.actionbutton == "tokenize") {
+    //   var sql = `update user_profile set tokenized='${tokenized}' WHERE wallet_id='${wallet_id}'`;
+    // } else {
+    //   var sql = `update user_profile set monetize='${tokenized}' WHERE wallet_id='${wallet_id}'`;
+    // }
+    // var query = db.query(sql, function (err, result) {
+    //   if (err) throw err;
+    //   //console.log(result.affectedRows + " record(s) updated");
+    // });
+    // var sqlQuery =
+    //   "SELECT wallet_id,tokenized,monetize FROM `user_profile` WHERE `wallet_id`='" +
+    //   wallet_id +
+    //   "'";
+    // db.query(sqlQuery, function (err, results) {
+    //   //const results = result.length || 0;
+    //   if (results.length > 0) {
+    //     req.session.userLanguage = results[0].language;
+    //     req.session.tokenized = results[0].tokenized;
+    //     req.session.monetize = results[0].monetize;
+    //     req.session.save();
+    //   }
+    // });
   }
   res.end();
 };
@@ -799,7 +835,7 @@ const deleteSearchTerm = function (req, res) {
 };
 const setCookies = function (req, res) {
   var post = req.body;
-  console.log(req.body);
+  //console.log(req.body);
   var tokenizValue = post.tokenizeEnabled;
   var cookieConsent = req.session.id;
   if (tokenizValue == "Y") {
