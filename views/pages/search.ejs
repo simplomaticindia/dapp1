@@ -1,227 +1,407 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>DAPP Conceptual Web3</title>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
-  <!-- Google Fonts Roboto -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
-  <!-- MDB -->
-  <link rel="stylesheet" href="/../public/css/mdb.min.css" />
-  <!-- Custom styles -->
-  <link rel="stylesheet" href="/../public/css/admin.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
-    crossorigin="anonymous"></script>
-</head>
-
-<body>
-  <!--Main Navigation-->
-  <header>
-    <!-- Sidebar -->
+ <%- include('../partials/header-front'); %>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
+<link rel="stylesheet" href="/node_modules/cookie-consent-js/src/cookie-consent.css"/>
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+    <style>
+ 
+#cookiePopup {
+  background-color: #ffffff;
+  position: absolute;
+  font-size: 14px;
+  width: 70vw;
+  max-width: 42.85em;
+  box-shadow: 0 0 2em rgba(5, 0, 31, 0.15);
+  font-family: "Poppins", sans-serif;
+  text-align: justify;
+  line-height: 1.8em;
+  padding: 0.2em 1.4em;
+  border-radius: 6px;
+  transition: all 0.5s ease-in;
+}
+#cookiePopup img {
+  display: block;
+  width: 3.75em;
+  transform: translateZ(0);
+  position: relative;
+  margin: auto;
+}
+#cookiePopup p {
+  text-align: left;
+ 
+}
+#cookiePopup button {
+ 
+  border: none;
+  color: #ffffff;
+  font-size: 1.2em;
+  display: block;
+  position: relative;
+  margin: auto;
+  border-radius: 4px;
+}
+.result-item h3 
+{
+   font-size:16px;
+}
+#cookiePopup a {
+  color: #6859fe;
+}
+.hide {
+  visibility: hidden;
+  bottom: 0;
+  right: 2em;
+}
+.show {
+  visibility: visible;
+  bottom: 2em;
+  right: 2em;
+}
+@media only screen and (max-width: 37.5em) {
+  #cookiePopup {
+    width: 100%;
+  }
+  .hide {
+    bottom: 2em;
+    right: 0;
+  }
+  .show {
+    right: 0;
+    bottom: 0;
+  }
+}
+    </style>
+  </head>
+  <body>
+  <div class="container-fluid">
+  <div class="row search-container">
+    <div class="col-sm">
     
-    <!-- Sidebar -->
+    </div>
+    <div class="col-sm">
+      <form action="/searchTerm" method="POST" name="searchform" class="search-form">
+        <p align="center"> <img src="/../public/img/Web3Search.png" height="60" alt="Web3Search" loading="lazy" /></p>
+        <input type="text" name="searchtermtext" class="form-control" placeholder="Search here.." value="" required>
+        <p align="center"><br> <button type="submit" class="btn btn-primary center" type="submit">Search</button></p>
+      </form>
+    </div>
+    <div class="col-sm"></div>
+    <% if (message) { %>
+    <div class="container my-4">
+      <!-- Include your result-item divs here -->
+      <main>
+      <div class="main-container">
+      
+     
+      
+        <div class="search-delay">
+          About 17,000,000 results (0.35 seconds)
+        </div>
+        <div class="result-item">
+        <div class="result-item-link">
+         <p><%= searchtermtext %></p>
+          <a href="#"><%= urlLink%></a>
+            </span></a>
 
-    <!-- Navbar -->
-    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white bg-primary fixed-top">
-      <!-- Container wrapper -->
-      <div class="container-fluid">
-        <!-- Toggle button -->
-        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#sidebarMenu"
-          aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="fas fa-bars"></i>
-        </button>
+          </div>
+          <div class="result-item-link">
+        
+            <a href="#">https://www.codewithwebthrough.com</a><br>
+            <a href="#"><span class="material-icons-outlined dots">
+                more_vert
+            </span></a>
 
-        <!-- Brand -->
-        <a class="navbar-brand" href="#">
-          <h2>DAPP</h2>
-        </a>
-        <!-- Search form -->
-       
-
-        <!-- Right links -->
-        <ul class="navbar-nav ms-auto d-flex flex-row">
-          <!-- Notification dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="/" id="navbarDropdownMenuLink"
-              role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-             Home
-              
-          </a>
-          </li>
-
-          <!-- Icon -->
-          <li class="nav-item">
-            <a class="nav-link me-3 me-lg-0" href="#">
-             Sign Up
-            </a>
-          </li>
-         
-
-          <!-- Icon dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown" role="button"
-              data-mdb-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-ellipsis-v" aria-hidden="true"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li>
-                <a class="dropdown-item" href="#"><i class="united kingdom flag"></i>English
-                  <i class="fa fa-check text-success ms-2"></i></a>
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"><i class="poland flag"></i>Polski</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"><i class="china flag"></i>中文</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"><i class="japan flag"></i>日本語</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"><i class="germany flag"></i>Deutsch</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"><i class="france flag"></i>Français</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"><i class="spain flag"></i>Español</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"><i class="russia flag"></i>Русский</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"><i class="portugal flag"></i>Português</a>
-              </li>
-            </ul>
-          </li>
-
-          <!-- Avatar -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
-              id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-              <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22"
-                alt="" loading="lazy" />
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="#">My profile</a></li>
-              <li><a class="dropdown-item" href="/searchHistory">Search History</a></li>
-              <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
-            </ul>
-          </li>
-        </ul>
+          </div>
+          <h3><a href="#">Code with webthrough - Best Front-End Components and Blogs</a></h3>
+          <p>
+            codewithwebthrough is an up-to-date collection of accessible front-end components, blogs and tutorials related to technology, programming and web development.
+          </p>
+          <div class="sub-result-container">
+            <div class="sub-result-item">
+              <h3><a href="#">Components</a></h3>
+              <p>Find an up-to-date collection of accessible front-end components ...</p>
+            </div>
+            <div class="sub-result-item">
+              <h3><a href="#">Blogs</a></h3>
+              <p>
+                Get Latest Blogs related to technology, programming ...
+              </p>
+            </div>
+            <div class="sub-result-item">
+              <h3><a href="#">About</a></h3>
+              <p>
+                This is webthrough Choudhary admin of codewithwebthrough.com ...
+              </p>
+            </div>
+            <div class="sub-result-item">
+              <h3><a href="#">Privacy Policy</a></h3>
+              <p>
+                This Privacy Policy applies only to our online activities and is valid for
+                ...
+              </p>
+            </div>
+            <div class="sub-result-item">
+              <h3><a href="#">Contact</a></h3>
+              <p>Lets talk about everything! Whether you have a question ...</p>
+            </div>
+          </div>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#">https://www.codewithwebthrough.com › components </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3><a href="#">Latest Front-End Components - codewithwebthrough</a></h3>
+          <p>
+            Find an up-to-date collection of accessible front-end components. Components are used to define custom, reusable HTML elements.
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#">https://www.codewithwebthrough.com › contact </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3><a href="#">Code with webthrough - Contact Us - codewithwebthrough</a></h3>
+          <p>
+            Lets talk about everything! Whether you have a question, want to start a project or simply want to connect.
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.instagram.com › @codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">codewithwebthrough (@codewithwebthrough) • Instagram photos and videos</a>
+          </h3>
+          <p>
+            55.5k Followers, 302 Following, 110 Posts - See Instagram photos and
+            videos from <strong>codewithwebthrough</strong> (@<strong>codewithwebthrough</strong>)
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#">https://www.codewithwebthrough.com</a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, laudantium sequi cumque voluptatum natus in?.
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor sit amet.</a>
+          </h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, laudantium sequi cumque voluptatum natus in?.
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com › blogs </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor sit amet consectetur.</a>
+          </h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo repellat deleniti placeat. Dignissimos similique hic quibusdam reiciendis ipsa! Obcaecati, ea..
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor sit amet.</a>
+          </h3>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit molestias recusandae tempora, voluptas hic fugit ad molestiae..
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor, sit amet consectetur adipisicing.</a>
+          </h3>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum, saepe maxime ratione numquam reiciendis expedita impedit voluptatem facere assumenda?
+          </p>
+        </div>
+        <div class="result-item">
+          <div class="result-item-link">
+            <a href="#"> https://www.codewithwebthrough.com </a>
+            <a href="#"><span class="material-icons-outlined dots">
+              more_vert
+            </span></a>
+          </div>
+          <h3>
+            <a href="#">Lorem ipsum dolor sit amet.</a>
+          </h3>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea assumenda perferendis, distinctio qui repellat sapiente amet culpa natus voluptatum repellendus?
+          </p>
+        </div>
+        <section class="pages-nav">
+          <table>
+            <tr>
+              <td>W</td>
+              <td><a href="#" id="first-o">e</a></td>
+              <td><a href="#">b</a></td>
+              <td><a href="#">t</a></td>
+              <td><a href="#">h</a></td>
+              <td><a href="#">r</a></td>
+              <td><a href="#">o</a></td>
+              <td><a href="#">u</a></td>
+              <td><a href="#">g</a></td>
+              <td><a href="#">h</a></td>
+              <td>g</td>
+              <td>l</td>
+              <td>e</td>
+              <td><a href="#">></a></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><a href="#">1</a></td>
+              <td><a href="#">2</a></td>
+              <td><a href="#">3</a></td>
+              <td><a href="#">4</a></td>
+              <td><a href="#">5</a></td>
+              <td><a href="#">6</a></td>
+              <td><a href="#">7</a></td>
+              <td><a href="#">8</a></td>
+              <td><a href="#">9</a></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><a href="#">Next</a></td>
+            </tr>
+          </table>
+        </section>
       </div>
-      <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
-  </header>
-<div class="container-fluid">
-    <div class="row" style="padding-top:100px;">
-        <div class="col-sm">
-         
-        </div>
-        <div class="col-sm">
-            <form action="/searchTerm" method="POST" name="searchform">
-                
-                    <p  align="center">Search anything</p>
-                    <input type="text" name="searchtermtext" class="form-control" placeholder="Search here.." value="" required>
-                 
-                <p align="center"><br> <button type="submit" class="btn btn-primary center" type="submit">Search</button></p>
-                
-              </form>
-        </div>
-        <div class="col-sm">
-          
-        </div>
+
+    </main>
+    </div>
+    <% } else { %>
+    <div style="clear:both; padding-top: 15%;"></div>
+    <% } %>
+  </div>
+</div>
+<!-- consent form pop up-->
+    <div id="cookiePopup" class="hide">
+      <div class="cookie-consent-banner">
+  <div class="cookie-consent-banner__inner">
+    <div class="cookie-consent-banner__copy">
+      <div class="cookie-consent-banner__header"><strong>THIS WEBSITE USES</strong></div>
+      <div class="cookie-consent-banner__description">We use cookies to personalise content and ads, to provide social media features and to analyse our traffic. You consent to our cookies if you continue to use our website.</div>
+    </div>
+
+    <form fclass="cookie-consent-banner__actions">
+     
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="consent_name" id="optionvalue" value="not allow"/>
+  <label class="form-check-label" for="flexRadioDefault1"> I do not allow any personal data regarding my visit to be recorded (some services may not be available as a result)</label>
+</div>
+      <div class="form-check">
+        <input type="radio" class="form-check-input"  id="optionvalue2" name="consent_name" value="allow"/>
+        <labelclass="form-check-label">I allow this site to use cookies to retain data on my use of this site (normal site performance)</label>
+        
       </div>
+
+     <div class="form-check">
+        <input  class="form-check-input" type="radio" id="optionvalue3" name="consent_name" value="Y"/>
+        <label class="form-check-label">I allow the site to tokenize data on my visit (normal site performance, with control of your data for further sale as you choose)</label>
+        
+      </div>
+
    
-  </div>
- 	<!-- Modal HTML -->
-	<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">...</div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fullHeightModalRight">
-  Launch demo modal
-</button> -->
-
-<!-- Full Height Modal Right -->
-<div class="modal fade right" id="fullHeightModalRight" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-
-  <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
-  <div class="modal-dialog modal-full-height modal-right" role="document">
-
-
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Full Height Modal Right -->
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
-    Launch demo modal
-  </button> -->
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">...</div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-    <%- include('../partials/footer'); %>
+     <p align="center"><br>
+     <button id="acceptCookie"  class="btn btn-primary center" type="submit">Accept</button></p>
+     
     
+    </form>
+  </div>
+</div>
+      
+    </div>
+    <%- include('../partials/footer'); %>
+    <!-- end consent form pop up-->
     <script>
-        $(document).ready(function() {
-            $("#exampleModal2").modal("show");
-        });
-        </script>
-        <script type="text/javascript">
-            $(window).on('load',function(){
-                alert('muekshsdfs');
-                $('#exampleModal').modal('show');
-            });
-        </script>
+    let popUp = document.getElementById("cookiePopup");
+//When user clicks the accept button
+   document.getElementById("acceptCookie").addEventListener("click", () => {
+  //Create date object
+  let d = new Date();
+  //Increment the current time by 1 minute (cookie will expire after 1 minute)
+  d.setMinutes(2 + d.getMinutes());
+  //Create Cookie withname = myCookieName, value = thisIsMyCookie and expiry time=1 minute
+  document.cookie = "myCookieName=thisIsMyCookie; expires = " + d + ";";
+  let tokenizeCheckbox=document.getElementById("optionvalue");
+  let tokenizeCheckbox2=document.getElementById("optionvalue2");
+  let tokenizeCheckbox3=document.getElementById("optionvalue3");
+  //store cookies value
+  const preference = {
+    tokenizeEnabled: tokenizeCheckbox3.value,
+	  actionbutton: "tokenize"
+  };
+  fetch('/setCookies', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(preference)
+  });
+  //Hide the popup
+  popUp.classList.add("hide");
+  popUp.classList.remove("show");
+});
+//Check if cookie is already present
+const checkCookie = () => {
+  //Read the cookie and split on "="
+  let input = document.cookie.split("=");
+  //Check for our cookie
+  if (input[0] == "myCookieName") {
+    //Hide the popup
+    popUp.classList.add("hide");
+    popUp.classList.remove("show");
+  } else {
+    //Show the popup
+    popUp.classList.add("show");
+    popUp.classList.remove("hide");
+  }
+};
+//Check if cookie exists when page loads
+window.onload = () => {
+  setTimeout(() => {
+    checkCookie();
+  }, 2000);
+};
+</script>

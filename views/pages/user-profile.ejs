@@ -1,38 +1,99 @@
 <%- include('../partials/header'); %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <main style="margin-top: 58px">
 <div class="container pt-4">
 <section class="mb-4">
-  <div class="container mt-5">
 
-    <div class="row justify-content-center">
-
-        <div class="col-md-10">
-
-            <div class="card">
-
-                <div class="card-header">
+ <div class="card">
+      <div class="card-header text-center py-3">
+        
 
                     <h2 class="text-info">Profiles</h2>
 
-                </div>
+              
+      </div>
+<!-- Default form register -->
+<form action="/updateProfileData" method="POST" name="updateprofile">
+ <div class="row mb-4 card-body">
+ <div class="col">
+      <div class="form-outline">
+        <input type="text" id="metamaskid" value="<%= data[0].wallet_id %>" class="form-control" />
+        <label class="form-label" for="metamaskid">MetaMask Wallet id</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-outline">
+        <input type="text" id="userid" name="userId" value="<%= data[0].user_id %>" class="form-control" />
+        <label class="form-label" for="userId">User Id</label>
+      </div>
+    </div>
 
-                <div class="card-body">
+    
+  </div>
+  <!-- 2 column grid layout with text inputs for the first and last names -->
+  <div class="row mb-4 card-body">
+    <div class="col">
+      <div class="form-outline">
+        <input type="text" id="form3Example1" name="firstName" value="<%= data[0].first_name %>" class="form-control" />
+        <label class="form-label" for="form3Example1">First name</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-outline">
+        <input type="text" id="form3Example2" name="lastName" value="<%= data[0].last_name %>" class="form-control" />
+        <label class="form-label" for="form3Example2">Last name</label>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4 card-body" >
+  <div class="col">
+  <!-- Email input -->
+  <div class="form-outline">
+    <input type="email" id="form3Example3" name="emailId" value="<%= data[0].email_id %>"class="form-control" />
+    <label class="form-label" for="form3Example3">Email address</label>
+  </div>
+  </div>
+  <div class="col">
+  <div class="form-outline">
+    <input type="text" id="mobileno" name="mobileNo" value="<%= data[0].phone_no %>" class="form-control" />
+    <label class="form-label" for="mobileno">Mobile No</label>
+  </div>
+  </div>
+  </div>
+  <div class="row mb-4 card-body">
+    <div class="col">
+    <!-- Email input -->
+    <div class="form-outline">
+      <input type="text" id="Address1" name="address1" value="<%= data[0].address_line1 %>"class="form-control" />
+      <label class="form-label" for="Address1">Address1 </label>
+    </div>
+    </div>
+    <div class="col">
+    <div class="form-outline">
+      <input type="text" id="Address2" name="address2" value="<%= data[0].address_line2 %>" class="form-control" />
+      <label class="form-label" for="Address2">Address2</label>
+    </div>
+    </div>
+    </div>
+  <div class="row mb-4">
+  <div class="col">
+   <div class="card-body">
 
                     <div class="form-group">
 
                         <label for="country">Country</label>
 
-                        <select class="form-control" id="countryData">
+                        <select class="form-control" name="country" id="countryData">
 
                             <option value="">Select Country</option>
 
-                            <% if(data.length){
+                            <% if(countryList.length){
 
-                                for(var i = 0; i< data.length; i++) {%> 
+                                for(var i = 0; i< countryList.length; i++) {%> 
 
-                                    <option value="<%= data[i].id%>">
+                                    <option value="<%= countryList[i].isoCode %>_ <%= countryList[i].name%>">
 
-                                        <%= data[i].name%>
+                                        <%= countryList[i].name%>
 
                                     </option>
 
@@ -46,35 +107,94 @@
 
                     <div class="form-group">
 
-                        <label for="state">State</label>
+                        <label for="state">City</label>
 
-                        <select class="form-control" id="state-dropdown">
-                          <option value="">Select Country</option>
+                        <select class="form-control" name="city" id="cityDropdown">
+                          <option value="">Select City</option>
 
                           
                         </select>
 
                     </div>                        
 
+                   
+
+                </div>
+  </div>
+  <div class="col">
+    <div class="card-body">
+
                     <div class="form-group">
 
-                        <label for="city">City</label>
+                        <label for="country">State</label>
 
-                        <select class="form-control" id="city-dropdown">
+                        <select class="form-control" name="state" id="stateDropdown">
 
-                        </select>
+                            <option value="">Select State</option>
+
+                            
+
+                        </select>  
 
                     </div>
 
+                    <div class="col">
+                    <br>
+  <div class="form-outline">
+    <input type="text" id="zipcode" name="zipCode" class="form-control" />
+    <label class="form-label" for="zipcode">Zip Code</label>
+  </div>
+
+                    </div>                        
+
+                   
+
                 </div>
+  </div>
+  <div class="col">
+    <div class="card-body">
 
-            </div>
+                    <div class="form-group">
 
-        </div>
+                        <label for="country">Language</label>
 
-    </div>
+                        <select class="form-control" name="language" id="language">
 
+                            <option value="">Select Language</option>
+                            <option value="hindi">Hindi</option>
+                            <option value="english">English</option>
+
+
+                            
+
+                        </select>  
+
+                    </div>
+
+                    <div class="col">
+                    <br>
+  <div class="form-outline">
+    <input type="text" id="interest" name="interest" class="form-control" />
+    <label class="form-label" for="interest">Interest</label>
+  </div>
+
+                    </div>                        
+
+                   
+
+                </div>
+  </div>
+  </div>
+
+ 
+  <!-- Submit button -->
+   <div class="row mb-2">
+  <p align="center"><br> <button type="submit" class="btn btn-primary center" type="submit">Submit</button></p>
 </div>
+ 
+</form>
+<!-- Default profile form -->
+ 
 <script >
 
     $(document).ready(function() {
@@ -82,22 +202,20 @@
         $('#countryData').on('change', function() {
 
             var country_id = this.value;
-            console.log(country_id);
-            alert("Muksjsdsdf")
+            //console.log(country_id);
+           // alert(country_id)
 
-            $("#state-dropdown").html('');
+            $("#stateDropdown").html('');
 
             $.ajax({
 
-                url: "http://localhost:3000/get-states-by-country",
+                url: "https://iy28b1-3000.csb.app/getStateByCountry",
 
                 type: "POST",
 
-                data: {
+                data: { name: 'state',              
 
-                    name: 'country',
-
-                    country_id: country_id,
+                    countryCode:country_id
 
                 },
 
@@ -105,18 +223,16 @@
                 dataType: 'json',
 
                 success: function(result) {
+                  console.log(result);
 
-                    $('#state-dropdown').html('<option value="">Select State</option>');
+                    $('#stateDropdown').html('<option value="">Select State</option>');
 
                     $.each(result.states, function(key, value) {
+                        $("#stateDropdown").append('<option value="' + value.isoCode +"_"+ value.countryCode + "_"+ value.name +'">' + value.name + '</option>');
 
-                        $("#state-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });               
 
-                    });
-
-                
-
-                    $('#city-dropdown').html('<option value="">Select State First</option>');
+                    $('#cityDropdown').html('<option value="">Select State First</option>');
 
                 }
 
@@ -126,15 +242,15 @@
 
         
 
-        $('#state-dropdown').on('change', function() {
+        $('#stateDropdown').on('change', function() {
 
             var state_id = this.value;
 
-            $("#city-dropdown").html('');
+            $("#cityDropdown").html('');
 
             $.ajax({
 
-                url: "http://localhost:3000/get-cities-by-state",
+                url: "https://iy28b1-3000.csb.app/getCityByCountry",
 
                 type: "POST",
 
@@ -150,12 +266,11 @@
                 dataType: 'json',
 
                 success: function(result) {
-
-                    $('#city-dropdown').html('<option value="">Select City</option>');
+                    $('#cityDropdown').html('<option value="">Select City</option>');
 
                     $.each(result.cities, function(key, value) {
 
-                        $("#city-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
+                        $("#cityDropdown").append('<option value="' + value.name + '">' + value.name + '</option>');
 
                     });
 

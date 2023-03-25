@@ -96,10 +96,9 @@
 <%}%>
           <div class="table-responsive">
             <table class="table table-hover text-nowrap" id="example">
-            
               <thead>
                 <tr>
-                  <th scope="col">Your Search</th>
+                  <th scope="col">Search</th>
                   <th scope="col">Time</th>
                   <th scope="col">Tokenize</th>
                   <th scope="col">Monetize</th>
@@ -217,43 +216,32 @@ function deleteSearchTerm(id) {
   
 <!-- Below code for counter  -->
   window.onload = function() {
-  const table = document.getElementById('example');
-  const rows = table.getElementsByTagName('tr');
-  let tokenizedCount = 0;
-  let monetizedCount = 0;
-  let searchTermsCount = rows.length - 1; //subtract the header row
-  let totalTokenValue = 0;
-  for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-    const tokenizeToggle = row.querySelector('input[id^="tokenizeToggle"]');
-    const monetizeToggle = row.querySelector('input[id^="monetizeToggle"]');
-    const tokenValue = row.querySelector('td:nth-child(6)').textContent.trim();
-    if (tokenizeToggle && tokenizeToggle.checked) {
-      tokenizedCount++;
-      totalTokenValue += parseFloat(tokenValue.replace(/[^0-9.-]+/g,""));
+    const table = document.getElementById('example');
+    const rows = table.getElementsByTagName('tr');
+    let tokenizedCount = 0;
+    let monetizedCount = 0;
+    let searchTermsCount = rows.length - 1; //subtract the header row
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const tokenizeToggle = row.querySelector('input[id^="tokenizeToggle"]');
+      const monetizeToggle = row.querySelector('input[id^="monetizeToggle"]');
+      if (tokenizeToggle && tokenizeToggle.checked) {
+        tokenizedCount++;
+      }
+      if (monetizeToggle && monetizeToggle.checked) {
+        monetizedCount++;
+      }
     }
-    if (monetizeToggle && monetizeToggle.checked) {
-      monetizedCount++;
-    }
+    const totalTokenizedElement = document.getElementById('totalTokenized');
+    totalTokenizedElement.innerText = tokenizedCount.toString();
+    const totalMonetizedElement = document.getElementById('totalMonetized');
+    totalMonetizedElement.innerText = monetizedCount.toString();
+    const totalSearchTermsElement = document.getElementById('totalSearchTerms');
+    totalSearchTermsElement.innerText = searchTermsCount.toString();
   }
-  const totalTokenizedElement = document.getElementById('totalTokenized');
-  totalTokenizedElement.innerText = tokenizedCount.toString();
-  const totalMonetizedElement = document.getElementById('totalMonetized');
-  totalMonetizedElement.innerText = monetizedCount.toString();
-  const totalSearchTermsElement = document.getElementById('totalSearchTerms');
-  totalSearchTermsElement.innerText = searchTermsCount.toString();
-  const totalTokenValueElement = document.getElementById('totaltokenvalue');
-  totalTokenValueElement.innerText = "$" + totalTokenValue.toFixed(2);
-}
-
- <!-- End counter card --> 
-  
 </script>
 
-
-
-
-
+<!-- End counter card -->
 
 </div>
 

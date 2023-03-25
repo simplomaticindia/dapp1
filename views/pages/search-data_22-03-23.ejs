@@ -96,10 +96,9 @@
 <%}%>
           <div class="table-responsive">
             <table class="table table-hover text-nowrap" id="example">
-            
               <thead>
                 <tr>
-                  <th scope="col">Your Search</th>
+                  <th scope="col">Search</th>
                   <th scope="col">Time</th>
                   <th scope="col">Tokenize</th>
                   <th scope="col">Monetize</th>
@@ -121,54 +120,20 @@
                         <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" id="tokenizeToggle<%= item.id %>"
                             <%= item.tokenized === 'Y' ? 'checked' : '' %>
-                            onchange="toggleTokenized(this, '<%= item.id %>')" value="<%= item.tokenized %>_<%= item.id %>">
+                            onchange="toggleTokenized(this, '<%= item.id %>')">
                           <label class="form-check-label" for="tokenizeToggle<%= item.id %>"></label>
-                          <script>
-                          const tokenizeCheckboxMonetize<%= item.id %> = document.getElementById('tokenizeToggle<%= item.id %>');
-                          tokenizeCheckboxMonetize<%= item.id %>.addEventListener('change', () => {
-                          const preference = {
-                          tokenizeEnabled: tokenizeCheckboxMonetize<%= item.id %>.value,
-                          actionbutton: "tokenized"
-                          };
-                          fetch('/tokenizedMonetizeSingle', {
-                          method: 'POST',
-                          headers: {
-                          'Content-Type': 'application/json'
-                          },
-                          body: JSON.stringify(preference)
-                          });
-                          });
-                          </script>
                         </div>
                       </td>
                       <td>
                         <div class="form-check form-switch">
-                          <input class="form-check-input" type="checkbox" value="<%= item.monetize %>_<%= item.id %>" id="monetizeToggle<%= item.id %>"
+                          <input class="form-check-input" type="checkbox" id="monetizeToggle<%= item.id %>"
                             <%= item.monetize === 'Y' ? 'checked' : '' %>
-                            onchange="toggleMonetize(this, '<%= item.id %>')" 
-                            <%= item.tokenized === 'N' ? 'disabled' : '' %> >
+                            onchange="toggleMonetize(this, '<%= item.id %>')" <%=
+                            item.tokenized === 'N' ? 'disabled' : '' %>>
                           <label class="form-check-label" for="monetizeToggle<%= item.id %>"></label>
-                          <script>
-                          const monetizeCheckboxMonetize<%= item.id %> = document.getElementById('monetizeToggle<%= item.id %>');
-                          monetizeCheckboxMonetize<%= item.id %>.addEventListener('change', () => {
-                          const preference = {
-                          tokenizeEnabled: monetizeCheckboxMonetize<%= item.id %>.value,
-                          actionbutton: "monetized"
-                          };
-                          fetch('/tokenizedMonetizeSingle', {
-                          method: 'POST',
-                          headers: {
-                          'Content-Type': 'application/json'
-                          },
-                          body: JSON.stringify(preference)
-                          });
-                          });
-                          </script>
                         </div>
                       </td>
-                       <td><%= item.category %>        
-
-                      </td>  
+                       <td><%= item.category %></td>  
                         <td><%= item.tokenvalue %></td>                      
                       <td><a href="/deleteSearchTerm/<%= item.id %>" onclick="deleteSearchTerm('<%= item.id %>')"><i class="fas fa-trash-alt"></i> </a>
                       </td>
@@ -217,44 +182,32 @@ function deleteSearchTerm(id) {
   
 <!-- Below code for counter  -->
   window.onload = function() {
-  const table = document.getElementById('example');
-  const rows = table.getElementsByTagName('tr');
-  let tokenizedCount = 0;
-  let monetizedCount = 0;
-  let searchTermsCount = rows.length - 1; //subtract the header row
-  let totalTokenValue = 0;
-  for (let i = 1; i < rows.length; i++) {
-    const row = rows[i];
-    const tokenizeToggle = row.querySelector('input[id^="tokenizeToggle"]');
-    const monetizeToggle = row.querySelector('input[id^="monetizeToggle"]');
-    const tokenValue = row.querySelector('td:nth-child(6)').textContent.trim();
-    if (tokenizeToggle && tokenizeToggle.checked) {
-      tokenizedCount++;
-      totalTokenValue += parseFloat(tokenValue.replace(/[^0-9.-]+/g,""));
+    const table = document.getElementById('example');
+    const rows = table.getElementsByTagName('tr');
+    let tokenizedCount = 0;
+    let monetizedCount = 0;
+    let searchTermsCount = rows.length - 1; //subtract the header row
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const tokenizeToggle = row.querySelector('input[id^="tokenizeToggle"]');
+      const monetizeToggle = row.querySelector('input[id^="monetizeToggle"]');
+      if (tokenizeToggle && tokenizeToggle.checked) {
+        tokenizedCount++;
+      }
+      if (monetizeToggle && monetizeToggle.checked) {
+        monetizedCount++;
+      }
     }
-    if (monetizeToggle && monetizeToggle.checked) {
-      monetizedCount++;
-    }
+    const totalTokenizedElement = document.getElementById('totalTokenized');
+    totalTokenizedElement.innerText = tokenizedCount.toString();
+    const totalMonetizedElement = document.getElementById('totalMonetized');
+    totalMonetizedElement.innerText = monetizedCount.toString();
+    const totalSearchTermsElement = document.getElementById('totalSearchTerms');
+    totalSearchTermsElement.innerText = searchTermsCount.toString();
   }
-  const totalTokenizedElement = document.getElementById('totalTokenized');
-  totalTokenizedElement.innerText = tokenizedCount.toString();
-  const totalMonetizedElement = document.getElementById('totalMonetized');
-  totalMonetizedElement.innerText = monetizedCount.toString();
-  const totalSearchTermsElement = document.getElementById('totalSearchTerms');
-  totalSearchTermsElement.innerText = searchTermsCount.toString();
-  const totalTokenValueElement = document.getElementById('totaltokenvalue');
-  totalTokenValueElement.innerText = "$" + totalTokenValue.toFixed(2);
-}
-
- <!-- End counter card --> 
-  
 </script>
 
-
-
-
-
+<!-- End counter card -->
 
 </div>
-
   <%- include('../partials/footer'); %>

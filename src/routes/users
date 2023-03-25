@@ -1,15 +1,31 @@
 const express = require('express');
 const UserController = require('../controllers/userController')
+const countryStateController = require('../controllers/countryStateController')
+const cookieParser = require("cookie-parser");
 const app = express();
 const router = express.Router();
+app.use(cookieParser());
 app.set('view engine', 'ejs');
-router.get('/', (req,res) => {
-  res.render('../views/pages/search');
-});
+router.get('/', UserController.searchIndex);
 router.post('/searchTerm', UserController.getSearchData);
+router.get('/searchTerm', UserController.getSearchData);
 router.get('/searchHistory', UserController.getSearchHistory);
 router.get('/dashboard', UserController.dashboard);
+router.get('/countryStateCity', UserController.countryStateCity);
 router.get('/profile', UserController.profile);
+router.post('/login', UserController.login);
+router.post('/login', UserController.login);
+router.get('/logout', UserController.logout);
+router.post('/getStateByCountry', countryStateController.getStateList);
+router.post('/getCityByCountry', countryStateController.getCityList);
+router.post('/updateProfileData', UserController.updateProfileData);
+router.post('/tokenizedMonetize', UserController.tokenizedMonetize);
+router.get('/tokenizedMonetize', UserController.tokenizedMonetize);
+router.post('/tokenizedMonetizeSingle', UserController.tokenizedMonetizeSingle);
+router.get('/tokenizedMonetizeSingle', UserController.tokenizedMonetizeSingle);
+router.get('/profileDetails', UserController.getProfileDetails);
+router.get('/deleteSearchTerm/(:id)', UserController.deleteSearchTerm);
+router.post('/setCookies', UserController.setCookies);
 
 
 module.exports=router;
